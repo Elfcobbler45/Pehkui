@@ -59,7 +59,7 @@ public class ScaleTypes
 		return register(Pehkui.id(path));
 	}
 	
-	private static ScaleType register(String path, ScaleModifier valueModifier, ScaleModifier... dependantModifiers)
+	private static ScaleType register(String path, ScaleModifier valueModifier, ScaleModifier... dependentModifiers)
 	{
 		final ScaleType.Builder builder = ScaleType.Builder.create();
 		
@@ -68,7 +68,7 @@ public class ScaleTypes
 			builder.addBaseValueModifier(valueModifier);
 		}
 		
-		for (ScaleModifier scaleModifier : dependantModifiers)
+		for (ScaleModifier scaleModifier : dependentModifiers)
 		{
 			builder.addDependentModifier(scaleModifier);
 		}
@@ -76,7 +76,7 @@ public class ScaleTypes
 		return register(Pehkui.id(path), builder);
 	}
 	
-	private static ScaleType registerDimensionScale(String path, ScaleModifier valueModifier, ScaleModifier... dependantModifiers)
+	private static ScaleType registerDimensionScale(String path, ScaleModifier valueModifier, ScaleModifier... dependentModifiers)
 	{
 		final ScaleType.Builder builder = ScaleType.Builder.create()
 			.affectsDimensions();
@@ -86,7 +86,7 @@ public class ScaleTypes
 			builder.addBaseValueModifier(valueModifier);
 		}
 		
-		for (ScaleModifier scaleModifier : dependantModifiers)
+		for (ScaleModifier scaleModifier : dependentModifiers)
 		{
 			builder.addDependentModifier(scaleModifier);
 		}

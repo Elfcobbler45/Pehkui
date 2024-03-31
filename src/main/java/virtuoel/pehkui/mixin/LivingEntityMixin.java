@@ -80,7 +80,7 @@ public abstract class LivingEntityMixin
 		
 		if (scale < 1.0F)
 		{
-			final double min = scale * MulticonnectCompatibility.INSTANCE.getProtocolDependantValue(ver -> ver <= 47, 0.005D, 0.003D);
+			final double min = scale * MulticonnectCompatibility.INSTANCE.getProtocolDependentValue(ver -> ver <= 47, 0.005D, 0.003D);
 			
 			double vX = velocity.x;
 			double vY = velocity.y;

@@ -37,7 +37,7 @@ public class MulticonnectCompatibility
 		}
 	}
 	
-	public <T> T getProtocolDependantValue(IntPredicate protocolPredicate, T trueValue, T defaultValue)
+	public <T> T getProtocolDependentValue(IntPredicate protocolPredicate, T trueValue, T defaultValue)
 	{
 		if (this.enabled)
 		{
