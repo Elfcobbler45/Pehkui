@@ -14,6 +14,10 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(value = Inventory.class, priority = 990)
 public interface InventoryMixin
 {
+	/**
+	 * Computes reach distance from eye position to the edge of the block
+	 * instead of the center
+	 */
 	@Overwrite
 	public static boolean canPlayerUse(BlockEntity blockEntity, PlayerEntity player, int range)
 	{
