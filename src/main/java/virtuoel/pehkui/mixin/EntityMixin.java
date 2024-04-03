@@ -1,6 +1,5 @@
 package virtuoel.pehkui.mixin;
 
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -18,8 +17,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.ItemEntity;
@@ -35,7 +32,6 @@ import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
-import virtuoel.pehkui.util.ScaleCachingUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(Entity.class)
@@ -44,7 +40,6 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	@Shadow boolean onGround;
 	@Shadow boolean firstUpdate;
 	
-	private volatile Map<ScaleType, ScaleData> pehkui_scaleTypes = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
 	private boolean pehkui_shouldSyncScales = false;
 	private boolean pehkui_shouldIgnoreScaleNbt = false;
 	private ScaleData[] pehkui_scaleCache = null;
@@ -65,85 +60,6 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	public void pehkui_setScaleCache(ScaleData[] scaleCache)
 	{
 		pehkui_scaleCache = scaleCache;
-	}
-	
-	@Override
-	public ScaleData pehkui_getScaleData(ScaleType type)
-	{
-		if (ScaleCachingUtils.ENABLE_CACHING)
-		{
-			ScaleData[] scaleCache = pehkui_getScaleCache();
-			
-			if (scaleCache == null)
-			{
-				synchronized (this)
-				{
-					scaleCache = pehkui_getScaleCache();
-					
-					if (scaleCache == null)
-					{
-						pehkui_setScaleCache(scaleCache = new ScaleData[ScaleCachingUtils.CACHED.length]);
-					}
-				}
-			}
-			
-			final ScaleData cached = ScaleCachingUtils.getCachedData(scaleCache, type);
-			
-			if (cached != null)
-			{
-				return cached;
-			}
-		}
-		
-		final Map<ScaleType, ScaleData> scaleTypes = pehkui_getScales();
-		
-		ScaleData scaleData = scaleTypes.get(type);
-		
-		if (scaleData == null)
-		{
-			synchronized (scaleTypes)
-			{
-				if (!scaleTypes.containsKey(type))
-				{
-					scaleTypes.put(type, null);
-					scaleTypes.put(type, scaleData = pehkui_constructScaleData(type));
-					
-					if (ScaleCachingUtils.ENABLE_CACHING)
-					{
-						ScaleCachingUtils.setCachedData(pehkui_getScaleCache(), type, scaleData);
-					}
-				}
-				else
-				{
-					scaleData = scaleTypes.get(type);
-				}
-			}
-		}
-		
-		return scaleData;
-	}
-	
-	@Override
-	public Map<ScaleType, ScaleData> pehkui_getScales()
-	{
-		Map<ScaleType, ScaleData> scaleTypes = pehkui_scaleTypes;
-		
-		if (scaleTypes == null)
-		{
-			synchronized (this)
-			{
-				scaleTypes = pehkui_scaleTypes;
-				
-				if (scaleTypes == null)
-				{
-					pehkui_scaleTypes = scaleTypes = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
-					
-					ScaleRegistries.SCALE_TYPES.values().forEach(this::pehkui_getScaleData);
-				}
-			}
-		}
-		
-		return scaleTypes;
 	}
 	
 	@Override

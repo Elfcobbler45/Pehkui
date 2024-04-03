@@ -42,6 +42,8 @@
 		"ServerPlayerEntityMixin",
 		"ServerPlayNetworkHandlerMixin",
 		"ShulkerEntityMixin",
+		"ThreadSafeScaledEntityMixin",
+		"ThreadUnsafeScaledEntityMixin",
 		"ThrownEntityMixin",
 		"TrackTargetGoalMixin",
 		"WitherEntityMixin",
