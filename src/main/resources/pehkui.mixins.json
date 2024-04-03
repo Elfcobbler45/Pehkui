@@ -120,6 +120,7 @@
 		"compat117plus.LivingEntityMixin",
 		"compat117plus.PlayerEntityMixin",
 		"compat117plus.ProjectileUtilMixin",
+		"compat117plus.ServerWorldMixin",
 		"compat117plus.ShulkerEntityMixin",
 		"compat117plus.SlimeEntityMixin",
 		"compat117plus.ViewerCountManagerMixin",
