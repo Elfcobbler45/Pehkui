@@ -444,7 +444,9 @@ public class ScaleData
 		this.differingModifierCache.removeAll(getScaleType().getDefaultBaseValueModifiers());
 	}
 	
-	private void invalidateCachedScales()
+	@ApiStatus.Internal
+	@ApiStatus.NonExtendable
+	protected void invalidateCachedScales()
 	{
 		this.cachedScale = Float.NaN;
 		this.cachedPrevScale = Float.NaN;
