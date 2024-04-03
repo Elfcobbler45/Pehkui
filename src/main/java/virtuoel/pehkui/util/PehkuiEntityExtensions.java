@@ -12,6 +12,10 @@ public interface PehkuiEntityExtensions
 	
 	ScaleData pehkui_getScaleData(ScaleType type);
 	
+	ScaleData[] pehkui_getScaleCache();
+	
+	void pehkui_setScaleCache(ScaleData[] scaleCache);
+	
 	Map<ScaleType, ScaleData> pehkui_getScales();
 	
 	boolean pehkui_shouldSyncScales();

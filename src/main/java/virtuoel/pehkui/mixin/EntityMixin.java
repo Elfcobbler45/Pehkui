@@ -56,21 +56,33 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 	}
 	
 	@Override
+	public ScaleData[] pehkui_getScaleCache()
+	{
+		return pehkui_scaleCache;
+	}
+	
+	@Override
+	public void pehkui_setScaleCache(ScaleData[] scaleCache)
+	{
+		pehkui_scaleCache = scaleCache;
+	}
+	
+	@Override
 	public ScaleData pehkui_getScaleData(ScaleType type)
 	{
 		if (ScaleCachingUtils.ENABLE_CACHING)
 		{
-			ScaleData[] scaleCache = pehkui_scaleCache;
+			ScaleData[] scaleCache = pehkui_getScaleCache();
 			
 			if (scaleCache == null)
 			{
 				synchronized (this)
 				{
-					scaleCache = pehkui_scaleCache;
+					scaleCache = pehkui_getScaleCache();
 					
 					if (scaleCache == null)
 					{
-						pehkui_scaleCache = scaleCache = new ScaleData[ScaleCachingUtils.CACHED.length];
+						pehkui_setScaleCache(scaleCache = new ScaleData[ScaleCachingUtils.CACHED.length]);
 					}
 				}
 			}
@@ -98,7 +110,7 @@ public abstract class EntityMixin implements PehkuiEntityExtensions
 					
 					if (ScaleCachingUtils.ENABLE_CACHING)
 					{
-						ScaleCachingUtils.setCachedData(pehkui_scaleCache, type, scaleData);
+						ScaleCachingUtils.setCachedData(pehkui_getScaleCache(), type, scaleData);
 					}
 				}
 				else
