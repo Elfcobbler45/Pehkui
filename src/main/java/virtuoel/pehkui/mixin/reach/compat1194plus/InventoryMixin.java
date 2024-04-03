@@ -16,7 +16,7 @@ public interface InventoryMixin
 {
 	/**
 	 * Computes reach distance from eye position to the edge of the block
-	 * instead of the center
+	 * instead of to the center of the block
 	 */
 	@Overwrite
 	public static boolean canPlayerUse(BlockEntity blockEntity, PlayerEntity player, int range)
