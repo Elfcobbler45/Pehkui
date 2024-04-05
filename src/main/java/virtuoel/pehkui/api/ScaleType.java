@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.util.BackwardsCompatibility;
 import virtuoel.pehkui.util.PehkuiEntityExtensions;
+import virtuoel.pehkui.util.ReflectionUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 public class ScaleType
@@ -259,7 +260,7 @@ public class ScaleType
 				
 				e.calculateDimensions();
 				
-				en.pehkui_setOnGround(onGround);
+				ReflectionUtils.setOnGround(e, onGround);
 			}
 		}
 		

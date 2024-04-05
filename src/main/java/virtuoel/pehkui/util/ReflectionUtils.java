@@ -128,6 +128,19 @@ public final class ReflectionUtils
 		return entity.getDimensions(entity.getPose()).height * 0.75;
 	}
 	
+	public static void setOnGround(final Entity entity, final boolean onGround)
+	{
+		if (VersionUtils.MINOR >= 16)
+		{
+			entity.setOnGround(onGround);
+		}
+		else
+		{
+			final PehkuiEntityExtensions e = (PehkuiEntityExtensions) entity;
+			e.pehkui_setOnGround(onGround);
+		}
+	}
+	
 	public static void sendPacket(final ServerPlayNetworkHandler handler, final Packet<?> packet)
 	{
 		if (SEND_PACKET != null)
