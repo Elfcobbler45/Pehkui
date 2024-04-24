@@ -13,6 +13,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.predicate.NumberRange;
@@ -23,7 +24,7 @@ import virtuoel.pehkui.Pehkui;
 public final class ReflectionUtils
 {
 	public static final Class<?> LITERAL_TEXT;
-	public static final MethodHandle GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET, SEND_PACKET, IS_DUMMY;
+	public static final MethodHandle GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET, SEND_PACKET, IS_DUMMY, GET_WIDTH, GET_HEIGHT;
 	
 	static
 	{
@@ -42,6 +43,7 @@ public final class ReflectionUtils
 			final boolean is118Minus = VersionUtils.MINOR <= 18;
 			final boolean is1193Minus = VersionUtils.MINOR < 19 || (VersionUtils.MINOR == 19 && VersionUtils.PATCH <= 3);
 			final boolean is1201Minus = VersionUtils.MINOR < 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH <= 1);
+			final boolean is1204Minus = VersionUtils.MINOR < 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH <= 4);
 			
 			if (is118Minus)
 			{
@@ -72,6 +74,19 @@ public final class ReflectionUtils
 				m = NumberRange.class.getMethod(mapped);
 				h.put(4, lookup.unreflect(m));
 			}
+			
+			if (is1204Minus)
+			{
+				mapped = mappingResolver.mapFieldName("intermediary", "net.minecraft.class_4048", "field_18068", "F");
+				f = EntityDimensions.class.getField(mapped);
+				f.setAccessible(true);
+				h.put(5, lookup.unreflectGetter(f));
+				
+				mapped = mappingResolver.mapFieldName("intermediary", "net.minecraft.class_4048", "field_18067", "F");
+				f = EntityDimensions.class.getField(mapped);
+				f.setAccessible(true);
+				h.put(6, lookup.unreflectGetter(f));
+			}
 		}
 		catch (NoSuchMethodException | SecurityException | ClassNotFoundException | IllegalAccessException | NoSuchFieldException e)
 		{
@@ -85,6 +100,8 @@ public final class ReflectionUtils
 		GET_MOUNTED_HEIGHT_OFFSET = h.get(2);
 		SEND_PACKET = h.get(3);
 		IS_DUMMY = h.get(4);
+		GET_WIDTH = h.get(5);
+		GET_HEIGHT = h.get(6);
 	}
 	
 	public static float getFlyingSpeed(final LivingEntity entity)
@@ -125,7 +142,41 @@ public final class ReflectionUtils
 			}
 		}
 		
-		return entity.getDimensions(entity.getPose()).height * 0.75;
+		return getDimensionsHeight(entity.getDimensions(entity.getPose())) * 0.75;
+	}
+	
+	public static float getDimensionsWidth(final EntityDimensions dimensions)
+	{
+		if (GET_WIDTH != null)
+		{
+			try
+			{
+				return (float) GET_WIDTH.invoke(dimensions);
+			}
+			catch (final Throwable e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return dimensions.width();
+	}
+	
+	public static float getDimensionsHeight(final EntityDimensions dimensions)
+	{
+		if (GET_HEIGHT != null)
+		{
+			try
+			{
+				return (float) GET_HEIGHT.invoke(dimensions);
+			}
+			catch (final Throwable e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return dimensions.height();
 	}
 	
 	public static void setOnGround(final Entity entity, final boolean onGround)

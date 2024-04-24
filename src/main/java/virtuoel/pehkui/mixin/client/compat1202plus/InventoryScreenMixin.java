@@ -26,6 +26,7 @@ import net.minecraft.util.math.Vec3d;
 import virtuoel.pehkui.api.ScaleData;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.util.ReflectionUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(InventoryScreen.class)
@@ -53,8 +54,8 @@ public abstract class InventoryScreenMixin
 		
 		final EntityDimensions dims = entity.getDimensions(entity.getPose());
 		final Vec3d pos = entity.getPos();
-		final double r = dims.width / 2.0D;
-		final double h = dims.height;
+		final double r = ReflectionUtils.getDimensionsWidth(dims) / 2.0D;
+		final double h = ReflectionUtils.getDimensionsHeight(dims);
 		final double xPos = pos.x;
 		final double yPos = pos.y;
 		final double zPos = pos.z;
