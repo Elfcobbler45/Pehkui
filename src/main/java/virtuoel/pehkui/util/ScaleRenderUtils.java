@@ -81,30 +81,30 @@ public class ScaleRenderUtils
 				handles.put(1, lookup.unreflect(m));
 			}
 			
-			if (is1204Minus && env == EnvType.CLIENT && ModLoaderUtils.isModLoaded("fabric-networking-api-v1"))
-			{
-				mapped = "net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking";
-				final Class<?> networkingClass = Class.forName(mapped);
-				
-				mapped = "net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking$PlayChannelHandler";
-				final Class<?> handlerClass = Class.forName(mapped);
-				
-				mapped = "net.fabricmc.fabric.api.networking.v1.PacketSender";
-				classes[0] = Class.forName(mapped);
-				
-				m = networkingClass.getMethod("registerGlobalReceiver", Identifier.class, handlerClass);
-				methods.put(2, m);
-				
-				m = handlerClass.getDeclaredMethod("receive", MinecraftClient.class, ClientPlayNetworkHandler.class, PacketByteBuf.class, classes[0]);
-				t = MethodType.methodType(m.getReturnType(), m.getParameterTypes());
-				types.put(3, t);
-				
-				t = MethodType.methodType(handlerClass);
-				types.put(4, t);
-			}
-			
 			if (is1204Minus && env == EnvType.CLIENT)
 			{
+				if (ModLoaderUtils.isModLoaded("fabric-networking-api-v1"))
+				{
+					mapped = "net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking";
+					final Class<?> networkingClass = Class.forName(mapped);
+					
+					mapped = "net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking$PlayChannelHandler";
+					final Class<?> handlerClass = Class.forName(mapped);
+					
+					mapped = "net.fabricmc.fabric.api.networking.v1.PacketSender";
+					classes[0] = Class.forName(mapped);
+					
+					m = networkingClass.getMethod("registerGlobalReceiver", Identifier.class, handlerClass);
+					methods.put(2, m);
+					
+					m = handlerClass.getDeclaredMethod("receive", MinecraftClient.class, ClientPlayNetworkHandler.class, PacketByteBuf.class, classes[0]);
+					t = MethodType.methodType(m.getReturnType(), m.getParameterTypes());
+					types.put(3, t);
+					
+					t = MethodType.methodType(handlerClass);
+					types.put(4, t);
+				}
+				
 				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_636", "method_2926", "()Z");
 				m = ClientPlayerInteractionManager.class.getMethod(mapped);
 				handles.put(5, lookup.unreflect(m));
