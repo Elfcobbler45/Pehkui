@@ -197,11 +197,11 @@ dependencies {
 processResources {
 	inputs.property "version", project.version
 	
-	filesMatching("fabric.mod.json") {
+	filesMatching("*.mod.json") {
 		expand "version": project.version
 	}
 	
-	filesMatching("META-INF/mods.toml") {
+	filesMatching("META-INF/*mods.toml") {
 		expand "file": [ jarVersion: project.version ]
 	}
 }
@@ -215,7 +215,7 @@ eclipse {
 	}
 	if(!proj.hasProperty("neoforge_version") && !proj.hasProperty("forge_version")) {
 		jdt {
-			javaRuntimeName = "JavaSE-17"
+			javaRuntimeName = "JavaSE-21"
 		}
 	}
 	else {
@@ -232,7 +232,7 @@ tasks.withType(JavaCompile) {
 	options.compilerArgs += [ "-Xmaxwarns", "0" ]
 	
 	javaCompiler = javaToolchains.compilerFor {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
@@ -275,8 +275,8 @@ jar {
 }
 
 tasks.named("sourcesJar") {
-	exclude "fabric.mod.json"
-	exclude "META-INF/mods.toml"
+	exclude "*.mod.json"
+	exclude "META-INF/*mods.toml"
 }
 
 publishing {
