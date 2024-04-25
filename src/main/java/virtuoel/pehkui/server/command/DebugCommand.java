@@ -34,11 +34,14 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.network.DebugPacket;
+import virtuoel.pehkui.network.DebugPayload;
 import virtuoel.pehkui.util.CommandUtils;
 import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.NbtCompoundExtensions;
 import virtuoel.pehkui.util.ReflectionUtils;
+import virtuoel.pehkui.util.VersionUtils;
 
 public class DebugCommand
 {
@@ -91,12 +94,22 @@ public class DebugCommand
 					.then(CommandManager.literal("garbage_collect")
 						.executes(context ->
 						{
-							ReflectionUtils.sendPacket(context.getSource().getPlayerOrThrow().networkHandler,
-								(Packet<?>) ServerPlayNetworking.createS2CPacket(Pehkui.DEBUG_PACKET,
-									new PacketByteBuf(Unpooled.buffer())
-									.writeEnumConstant(DebugPacketType.GARBAGE_COLLECT)
-								)
-							);
+							final Packet<?> packet;
+							
+							if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
+							{
+								packet = ServerPlayNetworking.createS2CPacket(new DebugPayload(DebugPacketType.GARBAGE_COLLECT));
+							}
+							else
+							{
+								final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
+								
+								new DebugPacket(DebugPacketType.GARBAGE_COLLECT).write(buffer);
+								
+								packet = ReflectionUtils.createS2CPacket(Pehkui.DEBUG_PACKET, buffer);
+							}
+							
+							ReflectionUtils.sendPacket(context.getSource().getPlayerOrThrow().networkHandler, packet);
 							
 							System.gc();
 							
@@ -202,12 +215,22 @@ public class DebugCommand
 		final Entity executor = context.getSource().getEntity();
 		if (executor instanceof ServerPlayerEntity)
 		{
-			ReflectionUtils.sendPacket(((ServerPlayerEntity) executor).networkHandler,
-				(Packet<?>) ServerPlayNetworking.createS2CPacket(Pehkui.DEBUG_PACKET,
-					new PacketByteBuf(Unpooled.buffer())
-					.writeEnumConstant(DebugPacketType.MIXIN_AUDIT)
-				)
-			);
+			final Packet<?> packet;
+			
+			if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
+			{
+				packet = ServerPlayNetworking.createS2CPacket(new DebugPayload(DebugPacketType.MIXIN_AUDIT));
+			}
+			else
+			{
+				final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
+				
+				new DebugPacket(DebugPacketType.MIXIN_AUDIT).write(buffer);
+				
+				packet = ReflectionUtils.createS2CPacket(Pehkui.DEBUG_PACKET, buffer);
+			}
+			
+			ReflectionUtils.sendPacket(((ServerPlayerEntity) executor).networkHandler, packet);
 		}
 		
 		CommandUtils.sendFeedback(context.getSource(), () -> I18nUtils.translate("commands.pehkui.debug.audit.start", "Starting Mixin environment audit..."), false);

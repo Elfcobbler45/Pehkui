@@ -5,15 +5,21 @@ import org.spongepowered.asm.mixin.MixinEnvironment;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.PacketByteBuf;
 import virtuoel.pehkui.api.ScaleRegistries;
+import virtuoel.pehkui.network.ConfigSyncPacket;
+import virtuoel.pehkui.network.ConfigSyncPayload;
+import virtuoel.pehkui.network.DebugPacket;
+import virtuoel.pehkui.network.DebugPayload;
+import virtuoel.pehkui.network.ScalePayload;
 import virtuoel.pehkui.server.command.DebugCommand.DebugPacketType;
-import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.ModLoaderUtils;
-import virtuoel.pehkui.util.ScaleUtils;
+import virtuoel.pehkui.util.ScaleRenderUtils;
+import virtuoel.pehkui.util.VersionUtils;
 
 @ApiStatus.Internal
 public class PehkuiClient implements ClientModInitializer
@@ -23,75 +29,88 @@ public class PehkuiClient implements ClientModInitializer
 	{
 		if (ModLoaderUtils.isModLoaded("fabric-networking-api-v1"))
 		{
-			ClientPlayNetworking.registerGlobalReceiver(Pehkui.SCALE_PACKET, (client, handler, buf, sender) ->
+			if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
 			{
-				final int id = buf.readVarInt();
-				
-				for (int i = buf.readInt(); i > 0; i--)
+				ClientPlayNetworking.registerGlobalReceiver(ScalePayload.ID, (payload, context) ->
 				{
-					final Identifier typeId = buf.readIdentifier();
-					
-					final NbtCompound scaleData = ScaleUtils.buildScaleNbtFromPacketByteBuf(buf);
-					
-					if (!ScaleRegistries.SCALE_TYPES.containsKey(typeId))
-					{
-						continue;
-					}
-					
-					client.execute(() ->
-					{
-						final Entity e = client.world.getEntityById(id);
-						
-						if (e != null)
-						{
-							ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, typeId).getScaleData(e).readNbt(scaleData);
-						}
-					});
-				}
-			});
-			
-			ClientPlayNetworking.registerGlobalReceiver(Pehkui.CONFIG_SYNC_PACKET, (client, handler, buf, sender) ->
-			{
-				client.execute(ConfigSyncUtils.readConfigs(buf));
-			});
-			
-			ClientPlayNetworking.registerGlobalReceiver(Pehkui.DEBUG_PACKET, (client, handler, buf, sender) ->
-			{
-				DebugPacketType read;
-				
-				try
-				{
-					read = buf.readEnumConstant(DebugPacketType.class);
-				}
-				catch (Exception e)
-				{
-					read = null;
-				}
-				
-				final DebugPacketType type = read;
-				
-				client.execute(() ->
-				{
-					switch (type)
-					{
-						case MIXIN_AUDIT:
-							client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.start.client", "Starting Mixin environment audit (client)..."), false);
-							MixinEnvironment.getCurrentEnvironment().audit();
-							client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.end.client", "Mixin environment audit (client) complete!"), false);
-							
-							break;
-						case GARBAGE_COLLECT:
-							System.gc();
-							break;
-						default:
-							break;
-					}
+					handleScalePacket(context.client(), payload);
 				});
-			});
+				
+				ClientPlayNetworking.registerGlobalReceiver(ConfigSyncPayload.ID, (payload, context) ->
+				{
+					context.client().execute(payload.action);
+				});
+				
+				ClientPlayNetworking.registerGlobalReceiver(DebugPayload.ID, (payload, context) ->
+				{
+					handleDebugPacket(context.client(), payload.type);
+				});
+			}
+			else
+			{
+				ScaleRenderUtils.registerPacketHandler(Pehkui.SCALE_PACKET, PehkuiClient.class, "handleScalePacket");
+				ScaleRenderUtils.registerPacketHandler(Pehkui.CONFIG_SYNC_PACKET, PehkuiClient.class, "handleConfigSyncPacket");
+				ScaleRenderUtils.registerPacketHandler(Pehkui.DEBUG_PACKET, PehkuiClient.class, "handleDebugPacket");
+			}
 		}
 		else
 		{
 			Pehkui.LOGGER.error("Failed to register Pehkui's packet handlers! Is Fabric API's networking module missing?");
 		}
+	}
+	
+	protected static void handleScalePacket(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, Object responseSender)
+	{
+		handleScalePacket(client, new ScalePayload(buf));
+	}
+	
+	protected static void handleScalePacket(MinecraftClient client, ScalePayload payload)
+	{
+		client.execute(() ->
+		{
+			final Entity e = client.world.getEntityById(payload.entityId);
+			
+			if (e != null)
+			{
+				payload.syncedScales.forEach((typeId, scaleData) ->
+				{
+					if (ScaleRegistries.SCALE_TYPES.containsKey(typeId))
+					{
+						ScaleRegistries.getEntry(ScaleRegistries.SCALE_TYPES, typeId).getScaleData(e).readNbt(scaleData);
+					}
+				});
+			}
+		});
+	}
+	
+	protected static void handleConfigSyncPacket(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, Object responseSender)
+	{
+		client.execute(new ConfigSyncPacket(buf).action);
+	}
+	
+	protected static void handleDebugPacket(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, Object responseSender)
+	{
+		handleDebugPacket(client, new DebugPacket(buf).type);
+	}
+	
+	protected static void handleDebugPacket(MinecraftClient client, DebugPacketType type)
+	{
+		client.execute(() ->
+		{
+			switch (type)
+			{
+				case MIXIN_AUDIT:
+					client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.start.client", "Starting Mixin environment audit (client)..."), false);
+					MixinEnvironment.getCurrentEnvironment().audit();
+					client.player.sendMessage(I18nUtils.translate("commands.pehkui.debug.audit.end.client", "Mixin environment audit (client) complete!"), false);
+					
+					break;
+				case GARBAGE_COLLECT:
+					System.gc();
+					break;
+				default:
+					break;
+			}
+		});
 	}
 }

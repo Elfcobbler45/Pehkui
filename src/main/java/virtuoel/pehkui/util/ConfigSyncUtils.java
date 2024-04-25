@@ -37,6 +37,7 @@ import virtuoel.kanos_config.api.JsonConfigHandler;
 import virtuoel.kanos_config.api.MutableConfigEntry;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.network.ConfigSyncPayload;
 
 public class ConfigSyncUtils
 {
@@ -145,19 +146,31 @@ public class ConfigSyncUtils
 		}
 	}
 	
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Packet<?> createConfigSyncPacket(final Collection<SyncableConfigEntry<?>> configEntries)
 	{
-		final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
-		
+		if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
+		{
+			return ServerPlayNetworking.createS2CPacket(new ConfigSyncPayload(configEntries));
+		}
+		else
+		{
+			final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
+			
+			new ConfigSyncPayload(configEntries).write(buffer);
+			
+			return ReflectionUtils.createS2CPacket(Pehkui.CONFIG_SYNC_PACKET, buffer);
+		}
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static void write(final Collection<SyncableConfigEntry<?>> configEntries, final PacketByteBuf buffer)
+	{
 		buffer.writeVarInt(configEntries.size());
 		for (SyncableConfigEntry<?> entry : configEntries)
 		{
 			buffer.writeString(entry.getName());
 			((ConfigEntryCodec) SYNCED_CONFIG_CODECS.get(entry.getName())).write(buffer, entry);
 		}
-		
-		return ServerPlayNetworking.createS2CPacket(Pehkui.CONFIG_SYNC_PACKET, buffer);
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
@@ -500,7 +513,7 @@ public class ConfigSyncUtils
 		cfg.setValue(value);
 	}
 	
-	private static class SyncableConfigEntry<T> extends NamedConfigEntry<T>
+	public static class SyncableConfigEntry<T> extends NamedConfigEntry<T>
 	{
 		protected T syncedValue = null;
 		

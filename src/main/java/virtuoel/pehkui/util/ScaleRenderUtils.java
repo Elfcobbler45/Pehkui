@@ -1,9 +1,12 @@
 package virtuoel.pehkui.util;
 
+import java.lang.invoke.CallSite;
+import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodHandles.Lookup;
+import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,6 +17,8 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -23,6 +28,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.PlayerRespawnS2CPacket;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.crash.CrashReportSection;
@@ -32,45 +38,106 @@ import virtuoel.pehkui.api.PehkuiConfig;
 
 public class ScaleRenderUtils
 {
+	public static final MethodHandles.Lookup LOOKUP;
 	public static final MethodHandle DRAW_BOX_OUTLINE, SHOULD_KEEP_PLAYER_ATTRIBUTES;
+	public static final MethodType RECEIVE_TYPE, FACTORY_METHOD_TYPE;
+	public static final Method REGISTER_GLOBAL_RECEIVER;
+	public static final Class<?> PACKET_SENDER;
 	
 	static
 	{
-		final MappingResolver mappingResolver = FabricLoader.getInstance().getMappingResolver();
-		final Int2ObjectMap<MethodHandle> h = new Int2ObjectArrayMap<MethodHandle>();
+		final EnvType env = FabricLoader.getInstance().getEnvironmentType();
 		
-		final Lookup lookup = MethodHandles.lookup();
+		final MappingResolver mappingResolver = FabricLoader.getInstance().getMappingResolver();
+		final Int2ObjectMap<MethodHandle> handles = new Int2ObjectArrayMap<MethodHandle>();
+		final Int2ObjectMap<MethodType> types = new Int2ObjectArrayMap<MethodType>();
+		final Int2ObjectMap<Method> methods = new Int2ObjectArrayMap<Method>();
+		final Class<?>[] classes = new Class<?>[1];
+		
+		final MethodHandles.Lookup lookup = LOOKUP = MethodHandles.lookup();
 		String mapped = "unset";
 		Method m;
+		MethodType t;
 		
 		try
 		{
 			final boolean is114Minus = VersionUtils.MINOR <= 14;
 			final boolean is116Plus = VersionUtils.MINOR >= 16;
 			final boolean is1192Minus = VersionUtils.MINOR < 19 || (VersionUtils.MINOR == 19 && VersionUtils.PATCH <= 2);
+			final boolean is1204Minus = VersionUtils.MINOR < 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH <= 4);
 			
-			if (is114Minus && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+			if (is114Minus && env == EnvType.CLIENT)
 			{
 				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_761", "method_3260", "(Lnet/minecraft/class_238;FFFF)V");
 				m = WorldRenderer.class.getMethod(mapped, Box.class, float.class, float.class, float.class, float.class);
-				h.put(0, lookup.unreflect(m));
+				handles.put(0, lookup.unreflect(m));
 			}
 			
 			if (is116Plus && is1192Minus)
 			{
 				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_2724", "method_27904", "()Z");
 				m = PlayerRespawnS2CPacket.class.getMethod(mapped);
-				h.put(1, lookup.unreflect(m));
+				handles.put(1, lookup.unreflect(m));
+			}
+			
+			if (is1204Minus && env == EnvType.CLIENT && ModLoaderUtils.isModLoaded("fabric-networking-api-v1"))
+			{
+				mapped = "net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking";
+				final Class<?> networkingClass = Class.forName(mapped);
+				
+				mapped = "net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking$PlayChannelHandler";
+				final Class<?> handlerClass = Class.forName(mapped);
+				
+				mapped = "net.fabricmc.fabric.api.networking.v1.PacketSender";
+				classes[0] = Class.forName(mapped);
+				
+				m = networkingClass.getMethod("registerGlobalReceiver", Identifier.class, handlerClass);
+				methods.put(2, m);
+				
+				m = handlerClass.getDeclaredMethod("receive", MinecraftClient.class, ClientPlayNetworkHandler.class, PacketByteBuf.class, classes[0]);
+				t = MethodType.methodType(m.getReturnType(), m.getParameterTypes());
+				types.put(3, t);
+				
+				t = MethodType.methodType(handlerClass);
+				types.put(4, t);
 			}
 		}
-		catch (NoSuchMethodException | SecurityException | IllegalAccessException e)
+		catch (NoSuchMethodException | SecurityException | IllegalAccessException | ClassNotFoundException e)
 		{
 			Pehkui.LOGGER.error("Current name lookup: {}", mapped);
 			Pehkui.LOGGER.catching(e);
 		}
 		
-		DRAW_BOX_OUTLINE = h.get(0);
-		SHOULD_KEEP_PLAYER_ATTRIBUTES = h.get(1);
+		DRAW_BOX_OUTLINE = handles.get(0);
+		SHOULD_KEEP_PLAYER_ATTRIBUTES = handles.get(1);
+		REGISTER_GLOBAL_RECEIVER = methods.get(2);
+		RECEIVE_TYPE = types.get(3);
+		FACTORY_METHOD_TYPE = types.get(4);
+		PACKET_SENDER = classes[0];
+	}
+	
+	public static void registerPacketHandler(Identifier id, Class<?> clazz, String methodName)
+	{
+		if (REGISTER_GLOBAL_RECEIVER != null && RECEIVE_TYPE != null && FACTORY_METHOD_TYPE != null && PACKET_SENDER != null)
+		{
+			try
+			{
+				final Method staticRegister = clazz.getDeclaredMethod(methodName, MinecraftClient.class, ClientPlayNetworkHandler.class, PacketByteBuf.class, Object.class);
+				final MethodHandle staticRegisterHandle = LOOKUP.unreflect(staticRegister);
+				final MethodType staticRegisterType = staticRegisterHandle.type().changeParameterType(3, PACKET_SENDER);
+				
+				final CallSite lambdaFactory = LambdaMetafactory.metafactory(LOOKUP, "receive", FACTORY_METHOD_TYPE, RECEIVE_TYPE, staticRegisterHandle, staticRegisterType);
+				final MethodHandle factoryInvoker = lambdaFactory.getTarget();
+				
+				final Object handlerLambda = factoryInvoker.asType(FACTORY_METHOD_TYPE).invokeWithArguments(Collections.emptyList());
+				
+				REGISTER_GLOBAL_RECEIVER.invoke(null, id, handlerLambda);
+			}
+			catch (Throwable e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
 	}
 	
 	public static boolean wasPlayerAlive(final PlayerRespawnS2CPacket packet)

@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.Entity;
@@ -32,6 +31,8 @@ import virtuoel.pehkui.api.ScaleModifier;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.api.ScaleTypes;
+import virtuoel.pehkui.network.ScalePacket;
+import virtuoel.pehkui.network.ScalePayload;
 
 public class ScaleUtils
 {
@@ -254,18 +255,18 @@ public class ScaleUtils
 		{
 			if (NETWORKING_API_LOADED)
 			{
-				final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
-				
-				buffer.writeVarInt(entity.getId());
-				((ByteBuf) buffer).writeInt(syncedScales.size());
-				
-				for (final ScaleData s : syncedScales)
+				if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
 				{
-					buffer.writeIdentifier(ScaleRegistries.getId(ScaleRegistries.SCALE_TYPES, s.getScaleType()));
-					s.toPacket(buffer);
+					packetSender.accept(ServerPlayNetworking.createS2CPacket(new ScalePayload(entity, syncedScales)));
 				}
-				
-				packetSender.accept(ServerPlayNetworking.createS2CPacket(Pehkui.SCALE_PACKET, buffer));
+				else
+				{
+					final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
+					
+					new ScalePacket(entity, syncedScales).write(buffer);
+					
+					packetSender.accept(ReflectionUtils.createS2CPacket(Pehkui.SCALE_PACKET, buffer));
+				}
 			}
 			
 			syncedScales.clear();

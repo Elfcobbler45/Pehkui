@@ -5,12 +5,16 @@ import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.service.MixinService;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.util.Identifier;
 import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.api.ScaleOperations;
 import virtuoel.pehkui.api.ScaleTypes;
 import virtuoel.pehkui.command.PehkuiEntitySelectorOptions;
+import virtuoel.pehkui.network.ConfigSyncPayload;
+import virtuoel.pehkui.network.DebugPayload;
+import virtuoel.pehkui.network.ScalePayload;
 import virtuoel.pehkui.util.CommandUtils;
 import virtuoel.pehkui.util.ConfigSyncUtils;
 import virtuoel.pehkui.util.GravityChangerCompatibility;
@@ -19,6 +23,7 @@ import virtuoel.pehkui.util.ImmersivePortalsCompatibility;
 import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.ReachEntityAttributesCompatibility;
+import virtuoel.pehkui.util.VersionUtils;
 
 @ApiStatus.Internal
 public class Pehkui implements ModInitializer
@@ -56,6 +61,13 @@ public class Pehkui implements ModInitializer
 					ConfigSyncUtils.resetSyncedConfigs();
 				}
 			});
+			
+			if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
+			{
+				PayloadTypeRegistry.playS2C().register(ScalePayload.ID, ScalePayload.CODEC);
+				PayloadTypeRegistry.playS2C().register(ConfigSyncPayload.ID, ConfigSyncPayload.CODEC);
+				PayloadTypeRegistry.playS2C().register(DebugPayload.ID, DebugPayload.CODEC);
+			}
 		}
 		
 		GravityChangerCompatibility.INSTANCE.getClass();

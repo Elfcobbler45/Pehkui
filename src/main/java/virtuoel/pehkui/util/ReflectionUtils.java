@@ -2,7 +2,6 @@ package virtuoel.pehkui.util;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -10,28 +9,32 @@ import java.util.Optional;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.listener.ClientCommonPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.network.PlayerAssociatedNetworkHandler;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.util.Identifier;
 import virtuoel.pehkui.Pehkui;
 
 public final class ReflectionUtils
 {
 	public static final Class<?> LITERAL_TEXT;
-	public static final MethodHandle GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET, SEND_PACKET, IS_DUMMY, GET_WIDTH, GET_HEIGHT;
+	public static final MethodHandle GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET, SEND_PACKET, IS_DUMMY, GET_WIDTH, GET_HEIGHT, CREATE_S2C_PACKET;
 	
 	static
 	{
 		final MappingResolver mappingResolver = FabricLoader.getInstance().getMappingResolver();
 		final Int2ObjectMap<MethodHandle> h = new Int2ObjectArrayMap<MethodHandle>();
 		
-		final Lookup lookup = MethodHandles.lookup();
+		final MethodHandles.Lookup lookup = MethodHandles.lookup();
 		String mapped = "unset";
 		Class<?>[] c = new Class<?>[1];
 		Method m;
@@ -87,6 +90,12 @@ public final class ReflectionUtils
 				f.setAccessible(true);
 				h.put(6, lookup.unreflectGetter(f));
 			}
+			
+			if (is1204Minus && ModLoaderUtils.isModLoaded("fabric-networking-api-v1"))
+			{
+				m = ServerPlayNetworking.class.getMethod("createS2CPacket", Identifier.class, PacketByteBuf.class);
+				h.put(7, lookup.unreflect(m));
+			}
 		}
 		catch (NoSuchMethodException | SecurityException | ClassNotFoundException | IllegalAccessException | NoSuchFieldException e)
 		{
@@ -102,6 +111,19 @@ public final class ReflectionUtils
 		IS_DUMMY = h.get(4);
 		GET_WIDTH = h.get(5);
 		GET_HEIGHT = h.get(6);
+		CREATE_S2C_PACKET = h.get(7);
+	}
+	
+	public static Packet<ClientCommonPacketListener> createS2CPacket(Identifier channelName, PacketByteBuf buf)
+	{
+		try
+		{
+			return (Packet<ClientCommonPacketListener>) CREATE_S2C_PACKET.invoke(channelName, buf);
+		}
+		catch (final Throwable e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 	
 	public static float getFlyingSpeed(final LivingEntity entity)
