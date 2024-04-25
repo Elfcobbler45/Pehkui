@@ -14,6 +14,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.HitResult;
+import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(value = GameRenderer.class, priority = 990)
@@ -50,7 +51,7 @@ public class GameRendererMixin
 			if (this.client.crosshairTarget == null || this.client.crosshairTarget.getType() == HitResult.Type.MISS)
 			{
 				final float scale = ScaleUtils.getEntityReachScale(entity, tickDelta);
-				final double baseEntityReach = client.interactionManager.hasExtendedReach() ? 6.0D : client.interactionManager.getCurrentGameMode().isCreative() ? 5.0F : 4.5F;
+				final double baseEntityReach = ScaleRenderUtils.hasExtendedReach(client.interactionManager) ? 6.0D : client.interactionManager.getCurrentGameMode().isCreative() ? 5.0F : 4.5F;
 				final double entityReach = scale * baseEntityReach;
 				
 				return entityReach * entityReach;

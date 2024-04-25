@@ -12,6 +12,7 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.HitResult;
 import virtuoel.pehkui.util.ReachEntityAttributesCompatibility;
+import virtuoel.pehkui.util.ScaleRenderUtils;
 
 @Mixin(value = GameRenderer.class, priority = 990)
 public class GameRendererMixin
@@ -26,7 +27,7 @@ public class GameRendererMixin
 		
 		if (entity != null)
 		{
-			if (!client.interactionManager.hasExtendedReach())
+			if (!ScaleRenderUtils.hasExtendedReach(client.interactionManager))
 			{
 				final double baseEntityReach = client.interactionManager.getCurrentGameMode().isCreative() ? 5.0F : 4.5F;
 				
@@ -44,7 +45,7 @@ public class GameRendererMixin
 		
 		if (entity != null)
 		{
-			if (client.interactionManager.hasExtendedReach())
+			if (ScaleRenderUtils.hasExtendedReach(client.interactionManager))
 			{
 				return ReachEntityAttributesCompatibility.INSTANCE.getAttackRange(client.player, 6.0D);
 			}
@@ -62,7 +63,7 @@ public class GameRendererMixin
 		{
 			if (this.client.crosshairTarget == null || this.client.crosshairTarget.getType() == HitResult.Type.MISS)
 			{
-				final double baseEntityReach = client.interactionManager.hasExtendedReach() ? 6.0D : client.interactionManager.getCurrentGameMode().isCreative() ? 5.0F : 4.5F;
+				final double baseEntityReach = ScaleRenderUtils.hasExtendedReach(client.interactionManager) ? 6.0D : client.interactionManager.getCurrentGameMode().isCreative() ? 5.0F : 4.5F;
 				final double entityReach = ReachEntityAttributesCompatibility.INSTANCE.getAttackRange(client.player, baseEntityReach);
 				final double entityReachSquared = entityReach * entityReach;
 				

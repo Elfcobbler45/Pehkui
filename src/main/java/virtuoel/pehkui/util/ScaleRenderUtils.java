@@ -19,6 +19,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -39,7 +40,7 @@ import virtuoel.pehkui.api.PehkuiConfig;
 public class ScaleRenderUtils
 {
 	public static final MethodHandles.Lookup LOOKUP;
-	public static final MethodHandle DRAW_BOX_OUTLINE, SHOULD_KEEP_PLAYER_ATTRIBUTES;
+	public static final MethodHandle DRAW_BOX_OUTLINE, SHOULD_KEEP_PLAYER_ATTRIBUTES, HAS_EXTENDED_REACH;
 	public static final MethodType RECEIVE_TYPE, FACTORY_METHOD_TYPE;
 	public static final Method REGISTER_GLOBAL_RECEIVER;
 	public static final Class<?> PACKET_SENDER;
@@ -101,6 +102,13 @@ public class ScaleRenderUtils
 				t = MethodType.methodType(handlerClass);
 				types.put(4, t);
 			}
+			
+			if (is1204Minus && env == EnvType.CLIENT)
+			{
+				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_636", "method_2926", "()Z");
+				m = ClientPlayerInteractionManager.class.getMethod(mapped);
+				handles.put(5, lookup.unreflect(m));
+			}
 		}
 		catch (NoSuchMethodException | SecurityException | IllegalAccessException | ClassNotFoundException e)
 		{
@@ -114,6 +122,24 @@ public class ScaleRenderUtils
 		RECEIVE_TYPE = types.get(3);
 		FACTORY_METHOD_TYPE = types.get(4);
 		PACKET_SENDER = classes[0];
+		HAS_EXTENDED_REACH = handles.get(5);
+	}
+	
+	public static boolean hasExtendedReach(final ClientPlayerInteractionManager interactionManager)
+	{
+		if (HAS_EXTENDED_REACH != null)
+		{
+			try
+			{
+				return (boolean) HAS_EXTENDED_REACH.invoke(interactionManager);
+			}
+			catch (Throwable e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return interactionManager.getCurrentGameMode().isCreative();
 	}
 	
 	public static void registerPacketHandler(Identifier id, Class<?> clazz, String methodName)
