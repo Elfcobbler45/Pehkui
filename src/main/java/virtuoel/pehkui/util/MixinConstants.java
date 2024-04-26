@@ -210,93 +210,95 @@ public class MixinConstants
 	// 1.15 Minus Client
 	public static final String GET_HEIGHT = "L" + CLASS_1297 + ";" + METHOD_17682 + "()F";
 	
+	// ----COMMIT_READY_START----
+	
 	// 1.15 Plus 1.16 Minus
-	public static final String DROP_XP = METHOD_23883; // COMMIT_READY
+	public static final String DROP_XP = METHOD_23883;
 	
 	// 1.15 Plus 1.16 Minus Client
-	public static final String RENDER_ITEM = METHOD_23177 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_809$CLASS_811 + ";ZL" + CLASS_4587 + ";L" + CLASS_4597 + ";L" + CLASS_1937 + ";II)V"; // COMMIT_READY
+	public static final String RENDER_ITEM = METHOD_23177 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_809$CLASS_811 + ";ZL" + CLASS_4587 + ";L" + CLASS_4597 + ";L" + CLASS_1937 + ";II)V";
 	
 	// 1.15 Plus 1.19.2 Minus Client
-	public static final String GET_BASIC_PROJECTION_MATRIX = METHOD_22973; // COMMIT_READY
+	public static final String GET_BASIC_PROJECTION_MATRIX = METHOD_22973;
 	
 	// 1.16
-	public static final String IS_INSIDE_WALL = METHOD_5757 + "()Z"; // COMMIT_READY
+	public static final String IS_INSIDE_WALL = METHOD_5757 + "()Z";
 	
 	// 1.16 Minus
-	public static final String ON_OPEN = METHOD_5435 + "(L" + CLASS_1657 + ";)V"; // COMMIT_READY
-	public static final String ON_CLOSE = METHOD_5432 + "(L" + CLASS_1657 + ";)V"; // COMMIT_READY
-	public static final String COUNT_VIEWERS = METHOD_17765 + "(L" + CLASS_1937 + ";L" + CLASS_2624 + ";III)I"; // COMMIT_READY
+	public static final String ON_OPEN = METHOD_5435 + "(L" + CLASS_1657 + ";)V";
+	public static final String ON_CLOSE = METHOD_5432 + "(L" + CLASS_1657 + ";)V";
+	public static final String COUNT_VIEWERS = METHOD_17765 + "(L" + CLASS_1937 + ";L" + CLASS_2624 + ";III)I";
 	public static final String GET_BOUNDING_BOX = "L" + CLASS_1297 + ";" + METHOD_5829 + "()L" + CLASS_238 + ";";
-	public static final String FALL = METHOD_5623 + "(DZL" + CLASS_2680 + ";L" + CLASS_2338 + ";)V"; // COMMIT_READY
-	public static final String ON_LANDED_UPON = "L" + CLASS_2248 + ";" + METHOD_9554 + "(L" + CLASS_1937 + ";L" + CLASS_2338 + ";L" + CLASS_1297 + ";F)V"; // COMMIT_READY
-	public static final String SPAWN_ENTITY = "L" + CLASS_1937 + ";" + METHOD_8649 + "(L" + CLASS_1297 + ";)Z"; // COMMIT_READY
-	public static final String REMOVE = METHOD_5650; // COMMIT_READY
+	public static final String FALL = METHOD_5623 + "(DZL" + CLASS_2680 + ";L" + CLASS_2338 + ";)V";
+	public static final String ON_LANDED_UPON = "L" + CLASS_2248 + ";" + METHOD_9554 + "(L" + CLASS_1937 + ";L" + CLASS_2338 + ";L" + CLASS_1297 + ";F)V";
+	public static final String SPAWN_ENTITY = "L" + CLASS_1937 + ";" + METHOD_8649 + "(L" + CLASS_1297 + ";)Z";
+	public static final String REMOVE = METHOD_5650;
 	
 	// 1.16 Minus Client
-	public static final String RENDER_STATUS_BARS = METHOD_1760; // COMMIT_READY
-	public static final String GET_ABSORPTION_AMOUNT = "L" + CLASS_1657 + ";" + METHOD_6067 + "()F"; // COMMIT_READY
-	public static final String PROJECTILE_RAYCAST = METHOD_18075; // COMMIT_READY
+	public static final String RENDER_STATUS_BARS = METHOD_1760;
+	public static final String GET_ABSORPTION_AMOUNT = "L" + CLASS_1657 + ";" + METHOD_6067 + "()F";
+	public static final String PROJECTILE_RAYCAST = METHOD_18075;
 	
 	// 1.16.2 - 1.16.5 Client
-	public static final String ON_PLAYER_RESPAWN = METHOD_11117 + "(L" + CLASS_2724 + ";)V"; // COMMIT_READY
-	public static final String AFTER_SPAWN = "L" + CLASS_746 + ";" + METHOD_5823 + "()V"; // COMMIT_READY
+	public static final String ON_PLAYER_RESPAWN = METHOD_11117 + "(L" + CLASS_2724 + ";)V";
+	public static final String AFTER_SPAWN = "L" + CLASS_746 + ";" + METHOD_5823 + "()V";
 	
 	// 1.16 Plus 1.18 Minus
-	public static final String GIVE_TO_VEC3D = METHOD_19949 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_243 + ";)V"; // COMMIT_READY
+	public static final String GIVE_TO_VEC3D = METHOD_19949 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_243 + ";)V";
 	
 	// 1.16 Plus 1.19 Minus
-	public static final String GET_COLLISION = METHOD_18074 + "(L" + CLASS_1297 + ";Ljava/util/function/Predicate;)L" + CLASS_239 + ";"; // COMMIT_READY
+	public static final String GET_COLLISION = METHOD_18074 + "(L" + CLASS_1297 + ";Ljava/util/function/Predicate;)L" + CLASS_239 + ";";
 	
 	// 1.16 Plus 1.19.3 Minus
-	public static final String UPDATE_LIMBS = METHOD_29242 + "(L" + CLASS_1309 + ";Z)V"; // COMMIT_READY
+	public static final String UPDATE_LIMBS = METHOD_29242 + "(L" + CLASS_1309 + ";Z)V";
 	
 	// 1.16 Plus 1.20.2 Minus
-	public static final String GET_COLLISION_FROM_POSITION = METHOD_18074 + "(L" + CLASS_243 + ";L" + CLASS_1297 + ";Ljava/util/function/Predicate;L" + CLASS_243 + ";L" + CLASS_1937 + ";)L" + CLASS_239 + ";"; // COMMIT_READY
+	public static final String GET_COLLISION_FROM_POSITION = METHOD_18074 + "(L" + CLASS_243 + ";L" + CLASS_1297 + ";Ljava/util/function/Predicate;L" + CLASS_243 + ";L" + CLASS_1937 + ";)L" + CLASS_239 + ";";
 	
 	// 1.17 Plus 1.19.3 Minus Client
-	public static final String RENDER_ITEM_WITH_SEED = METHOD_23177 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_809$CLASS_811 + ";ZL" + CLASS_4587 + ";L" + CLASS_4597 + ";L" + CLASS_1937 + ";III)V"; // COMMIT_READY
+	public static final String RENDER_ITEM_WITH_SEED = METHOD_23177 + "(L" + CLASS_1309 + ";L" + CLASS_1799 + ";L" + CLASS_809$CLASS_811 + ";ZL" + CLASS_4587 + ";L" + CLASS_4597 + ";L" + CLASS_1937 + ";III)V";
 	
 	// 1.17 Plus 1.20.1 Minus
-	public static final String SQUARED_ATTACK_RANGE = METHOD_33191; // COMMIT_READY
+	public static final String SQUARED_ATTACK_RANGE = METHOD_33191;
 	
 	// 1.18 Minus
-	public static final String PROCESS_BLOCK_BREAKING_ACTION = METHOD_14263; // COMMIT_READY
+	public static final String PROCESS_BLOCK_BREAKING_ACTION = METHOD_14263;
 	
 	// 1.18 Plus 1.19.2 Minus
-	public static final String FOR_EACH = METHOD_31765 + "(L" + CLASS_238 + ";Ljava/util/function/Consumer;)V"; // COMMIT_READY
-	public static final String FOR_EACH_FILTERED = METHOD_31762 + "(L" + CLASS_5575 + ";L" + CLASS_238 + ";Ljava/util/function/Consumer;)V"; // COMMIT_READY
+	public static final String FOR_EACH = METHOD_31765 + "(L" + CLASS_238 + ";Ljava/util/function/Consumer;)V";
+	public static final String FOR_EACH_FILTERED = METHOD_31762 + "(L" + CLASS_5575 + ";L" + CLASS_238 + ";Ljava/util/function/Consumer;)V";
 	
 	// 1.19 Minus
-	public static final String UPDATE_PASSENGER_POSITION = METHOD_5865; // COMMIT_READY
+	public static final String UPDATE_PASSENGER_POSITION = METHOD_5865;
 	
 	// 1.19.2 Minus
-	public static final String CREATE_EXPLOSION = "L" + CLASS_1937 + ";" + METHOD_8437 + "(L" + CLASS_1297 + ";DDDFL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";"; // COMMIT_READY
-	public static final String CREATE_EXPLOSION_OPTIONAL_FIRE = "L" + CLASS_1937 + ";" + METHOD_8537 + "(L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";"; // COMMIT_READY
+	public static final String CREATE_EXPLOSION = "L" + CLASS_1937 + ";" + METHOD_8437 + "(L" + CLASS_1297 + ";DDDFL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";";
+	public static final String CREATE_EXPLOSION_OPTIONAL_FIRE = "L" + CLASS_1937 + ";" + METHOD_8537 + "(L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";";
 	
 	// 1.19.3 Minus
-	public static final String DRAW_ENTITY_MOUSE_LOOK = METHOD_2486 + "(IIIFFL" + CLASS_1309 + ";)V"; // COMMIT_READY
+	public static final String DRAW_ENTITY_MOUSE_LOOK = METHOD_2486 + "(IIIFFL" + CLASS_1309 + ";)V";
 	
 	// 1.19.3 Plus 1.20.2 Minus
-	public static final String CREATE_EXPLOSION_TYPED = "L" + CLASS_1937 + ";" + METHOD_8454 + "(L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1937$CLASS_7867 + ";)L" + CLASS_1927 + ";"; // COMMIT_READY
+	public static final String CREATE_EXPLOSION_TYPED = "L" + CLASS_1937 + ";" + METHOD_8454 + "(L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1937$CLASS_7867 + ";)L" + CLASS_1927 + ";";
 	
 	// 1.19.4
-	public static final String DRAW_ENTITY_ROTATED = METHOD_48472 + "(L" + CLASS_4587 + ";IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;L" + CLASS_1309 + ";)V"; // COMMIT_READY
+	public static final String DRAW_ENTITY_ROTATED = METHOD_48472 + "(L" + CLASS_4587 + ";IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;L" + CLASS_1309 + ";)V";
 	
 	// 1.20 - 1.20.1
-	public static final String DRAW_ENTITY_NO_TRANSLATION = METHOD_48472 + "(L" + CLASS_332 + ";IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;L" + CLASS_1309 + ";)V"; // COMMIT_READY
+	public static final String DRAW_ENTITY_NO_TRANSLATION = METHOD_48472 + "(L" + CLASS_332 + ";IIILorg/joml/Quaternionf;Lorg/joml/Quaternionf;L" + CLASS_1309 + ";)V";
 	
 	// 1.20.1 Minus
-	public static final String GET_MOUNTED_HEIGHT_OFFSET = METHOD_5621 + "()D"; // COMMIT_READY
-	public static final String GET_PASSENGER_ATTACHMENT_Y = METHOD_45346 + "(ZF)D"; // COMMIT_READY
-	public static final String GET_HEIGHT_OFFSET = METHOD_5678 + "()D"; // COMMIT_READY
-	public static final String ON_PLAYER_CONNECT = METHOD_14570; // COMMIT_READY
+	public static final String GET_MOUNTED_HEIGHT_OFFSET = METHOD_5621 + "()D";
+	public static final String GET_PASSENGER_ATTACHMENT_Y = METHOD_45346 + "(ZF)D";
+	public static final String GET_HEIGHT_OFFSET = METHOD_5678 + "()D";
+	public static final String ON_PLAYER_CONNECT = METHOD_14570;
 	
 	// 1.20.2 Minus
-	public static final String PERSISTENT_PROJECTILE_ENTITY_INIT = "<init>(L" + CLASS_1299 + ";L" + CLASS_1309 + ";L" + CLASS_1937 + ";)V"; // COMMIT_READY
+	public static final String PERSISTENT_PROJECTILE_ENTITY_INIT = "<init>(L" + CLASS_1299 + ";L" + CLASS_1309 + ";L" + CLASS_1937 + ";)V";
 	
 	// 1.16 Plus 1.20.2 Minus
-	public static final String EXPLOSION_WITH_DAMAGE_SOURCE_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V"; // COMMIT_READY
+	public static final String EXPLOSION_WITH_DAMAGE_SOURCE_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)V";
 	
 	// 1.20 Plus 1.20.2 Minus
-	public static final String GET_HIT_RESULT = METHOD_49999 + "(L" + CLASS_1309 + ";)L" + CLASS_239 + ";"; // COMMIT_READY
+	public static final String GET_HIT_RESULT = METHOD_49999 + "(L" + CLASS_1309 + ";)L" + CLASS_239 + ";";
 }
