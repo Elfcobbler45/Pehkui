@@ -21,19 +21,6 @@ public class SlimeEntityMixin
 		return entity;
 	}
 	
-	@ModifyExpressionValue(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", at = @At(value = "CONSTANT", args = "floatValue=4.0F"))
-	private float pehkui$remove$horizontalOffset(float value)
-	{
-		final float scale = ScaleUtils.getBoundingBoxWidthScale((Entity) (Object) this);
-		
-		if (scale != 1.0F)
-		{
-			return value / scale;
-		}
-		
-		return value;
-	}
-	
 	@ModifyExpressionValue(method = "remove(Lnet/minecraft/entity/Entity$RemovalReason;)V", at = @At(value = "CONSTANT", args = "doubleValue=0.5D"))
 	private double pehkui$remove$verticalOffset(double value)
 	{

@@ -4,11 +4,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.At.Shift;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -16,8 +14,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 
 import net.minecraft.block.ScaffoldingBlock;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityDimensions;
-import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.math.BlockPos;
@@ -25,7 +21,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import virtuoel.pehkui.api.PehkuiConfig;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.PehkuiBlockStateExtensions;
 import virtuoel.pehkui.util.ScaleUtils;
@@ -33,44 +28,6 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin
 {
-	@ModifyArg(method = "getEyeHeight", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getActiveEyeHeight(Lnet/minecraft/entity/EntityPose;Lnet/minecraft/entity/EntityDimensions;)F"))
-	private EntityDimensions pehkui$getEyeHeight$dimensions(EntityDimensions dimensions)
-	{
-		return dimensions.scaled(1.0F / ScaleUtils.getEyeHeightScale((Entity) (Object) this));
-	}
-	
-	@ModifyExpressionValue(method = "travel", at = @At(value = "CONSTANT", args = "floatValue=1.0F", ordinal = 0))
-	private float pehkui$travel$fallDistance(float value)
-	{
-		final float scale = ScaleUtils.getFallingScale((Entity) (Object) this);
-		
-		if (scale != 1.0F)
-		{
-			if (PehkuiConfig.COMMON.scaledFallDamage.get())
-			{
-				return value / scale;
-			}
-		}
-		
-		return value;
-	}
-	
-	@ModifyReturnValue(method = "getEyeHeight", at = @At("RETURN"))
-	private float pehkui$getEyeHeight(float original, EntityPose pose, EntityDimensions dimensions)
-	{
-		if (pose != EntityPose.SLEEPING)
-		{
-			final float scale = ScaleUtils.getEyeHeightScale((Entity) (Object) this);
-			
-			if (scale != 1.0F)
-			{
-				return original * scale;
-			}
-		}
-		
-		return original;
-	}
-	
 	@Inject(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;setVelocity(DDD)V", shift = Shift.AFTER))
 	private void pehkui$tickMovement$minVelocity(CallbackInfo info, @Local Vec3d velocity)
 	{
@@ -132,14 +89,6 @@ public abstract class LivingEntityMixin
 	private double pehkui$getAttackDistanceScalingFactor(double original)
 	{
 		final float scale = ScaleUtils.getVisibilityScale((Entity) (Object) this);
-		
-		return scale != 1.0F ? original * scale : original;
-	}
-	
-	@ModifyReturnValue(method = "getJumpVelocity", at = @At("RETURN"))
-	private float pehkui$getJumpVelocity(float original)
-	{
-		final float scale = ScaleUtils.getJumpHeightScale((Entity) (Object) this);
 		
 		return scale != 1.0F ? original * scale : original;
 	}

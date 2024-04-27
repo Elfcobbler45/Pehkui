@@ -27,12 +27,4 @@ public class WitherEntityMixin
 		
 		return scale != 1.0F ? scale * value : value;
 	}
-	
-	@ModifyExpressionValue(method = "getHeadY", at = { @At(value = "CONSTANT", args = "doubleValue=3.0D"), @At(value = "CONSTANT", args = "doubleValue=2.2D") })
-	private double pehkui$getHeadY$offset(double value)
-	{
-		final float scale = ScaleUtils.getBoundingBoxHeightScale((Entity) (Object) this);
-		
-		return scale != 1.0F ? scale * value : value;
-	}
 }

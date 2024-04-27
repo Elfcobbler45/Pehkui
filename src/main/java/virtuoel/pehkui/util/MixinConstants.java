@@ -85,6 +85,17 @@ public class MixinConstants
 	private static final String METHOD_5678 = "method_5678";
 	private static final String METHOD_14570 = "method_14570";
 	private static final String METHOD_49999 = "method_49999";
+	private static final String METHOD_52536 = "method_52536";
+	private static final String METHOD_31680 = "method_31680";
+	private static final String METHOD_7763 = "method_7763";
+	private static final String METHOD_18378 = "method_18378";
+	private static final String METHOD_18394 = "method_18394";
+	private static final String METHOD_18377 = "method_18377";
+	private static final String METHOD_52533 = "method_52533";
+	private static final String METHOD_18800 = "method_18800";
+	private static final String METHOD_51152 = "method_51152";
+	private static final String METHOD_2904 = "method_2904";
+	private static final String METHOD_3188 = "method_3188";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
 	
@@ -130,6 +141,11 @@ public class MixinConstants
 	private static final String CLASS_1282 = "net/minecraft/class_1282";
 	private static final String CLASS_5362 = "net/minecraft/class_5362";
 	private static final String CLASS_332 = "net/minecraft/class_332";
+	private static final String CLASS_4050 = "net/minecraft/class_4050";
+	private static final String CLASS_4048 = "net/minecraft/class_4048";
+	private static final String CLASS_1665 = "net/minecraft/class_1665";
+	private static final String CLASS_1682 = "net/minecraft/class_1682";
+	private static final String CLASS_2561 = "net/minecraft/class_2561";
 	
 	private static final String CLASS_809$CLASS_811 = "net/minecraft/class_809$class_811";
 	private static final String CLASS_1927$CLASS_4179 = "net/minecraft/class_1927$class_4179";
@@ -172,7 +188,7 @@ public class MixinConstants
 	
 	// 1.15 Client
 	public static final String RENDER_SHADOW_PART = METHOD_23163;
-	public static final String RENDER_LABEL_IF_PRESENT = METHOD_3926 + "(L" + CLASS_1297 + ";Ljava/lang/String;L" + CLASS_4587 + ";L" + CLASS_4597 + ";I)V";
+	public static final String RENDER_LABEL_STRING_IF_PRESENT = METHOD_3926 + "(L" + CLASS_1297 + ";Ljava/lang/String;L" + CLASS_4587 + ";L" + CLASS_4597 + ";I)V";
 	
 	// 1.15 Minus
 	public static final String ON_COLLISION = METHOD_7492 + "(L" + CLASS_239 + ";)V";
@@ -301,4 +317,27 @@ public class MixinConstants
 	
 	// 1.20 Plus 1.20.2 Minus
 	public static final String GET_HIT_RESULT = METHOD_49999 + "(L" + CLASS_1309 + ";)L" + CLASS_239 + ";";
+	
+	// 1.20.2 Plus 1.20.4 Minus
+	public static final String GET_RIDING_OFFSET = METHOD_52536;
+	
+	// 1.20.2 Plus 1.20.4 Minus Client
+	public static final String DRAW_ENTITY_WITH_OFFSET = METHOD_48472 + "(L" + CLASS_332 + ";FFILorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;L" + CLASS_1309 + ";)V";
+	
+	// 1.20.4 Minus
+	public static final String GET_IN_RANGE_VIEWER_COUNT = METHOD_31680;
+	public static final String SHOOT = METHOD_7763;
+	public static final String GET_EYE_HEIGHT = METHOD_18378 + "(L" + CLASS_4050 + ";L" + CLASS_4048 + ";)F";
+	public static final String GET_ACTIVE_EYE_HEIGHT = METHOD_18394 + "(L" + CLASS_4050 + ";L" + CLASS_4048 + ";)F";
+	public static final String GET_ACTIVE_EYE_HEIGHT_TARGET = "L" + CLASS_1309 + ";" + GET_ACTIVE_EYE_HEIGHT;
+	public static final String GET_DIMENSIONS = METHOD_18377 + "(L" + CLASS_4050 + ";)L" + CLASS_4048 + ";";
+	public static final String GET_PASSENGER_ATTACHMENT_POS = "L" + CLASS_1297 + ";" + METHOD_52533 + "(L" + CLASS_1297 + ";L" + CLASS_4048 + ";F)Lorg/joml/Vector3f;";
+	public static final String PERSISTENT_PROJECTILE_ENTITY_SET_VELOCITY = "L" + CLASS_1665 + ";" + METHOD_18800 + "(DDD)V";
+	public static final String THROWN_ENTITY_SET_VELOCITY = "L" + CLASS_1682 + ";" + METHOD_18800 + "(DDD)V";
+	public static final String GET_NAME_LABEL_HEIGHT = "L" + CLASS_1297 + ";" + METHOD_51152 + "()F";
+	
+	// 1.20.4 Minus Client
+	public static final String GET_REACH_DISTANCE = METHOD_2904;
+	public static final String RENDER_WORLD = METHOD_3188;
+	public static final String RENDER_LABEL_IF_PRESENT = METHOD_3926 + "(L" + CLASS_1297 + ";L" + CLASS_2561 + ";L" + CLASS_4587 + ";L" + CLASS_4597 + ";I)V";
 }

@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.entity.Entity;
@@ -29,8 +30,8 @@ public abstract class ProjectileEntityMixin
 		return value;
 	}
 	
-	@ModifyArg(method = "setVelocity(DDDFF)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;multiply(D)Lnet/minecraft/util/math/Vec3d;"))
-	private double pehkui$setVelocity$multiply(double value)
+	@ModifyVariable(method = "setVelocity(DDDFF)V", ordinal = 0, argsOnly = true, at = @At("HEAD"))
+	private float pehkui$setVelocity$power(float value)
 	{
 		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
 		

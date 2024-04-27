@@ -69,14 +69,6 @@ public abstract class BoatEntityMixin
 		return value;
 	}
 	
-	@ModifyExpressionValue(method = "updateVelocity", at = @At(value = "CONSTANT", args = "doubleValue=0.06153846016296973D"))
-	private double pehkui$updateVelocity$multiplier(double value)
-	{
-		final float scale = ScaleUtils.getMotionScale((Entity) (Object) this);
-		
-		return scale > 1.0F ? scale * value : value;
-	}
-	
 	@ModifyExpressionValue(method = "updateVelocity", at = @At(value = "CONSTANT", args = "doubleValue=-7.0E-4D"))
 	private double pehkui$updateVelocity$sinking(double value)
 	{
