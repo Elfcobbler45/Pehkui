@@ -145,6 +145,8 @@ public class MixinConstants
 	private static final String CLASS_4048 = "net/minecraft/class_4048";
 	private static final String CLASS_1665 = "net/minecraft/class_1665";
 	private static final String CLASS_1682 = "net/minecraft/class_1682";
+	private static final String CLASS_2394 = "net/minecraft/class_2394";
+	private static final String CLASS_3414 = "net/minecraft/class_3414";
 	private static final String CLASS_2561 = "net/minecraft/class_2561";
 	
 	private static final String CLASS_809$CLASS_811 = "net/minecraft/class_809$class_811";
@@ -335,6 +337,7 @@ public class MixinConstants
 	public static final String PERSISTENT_PROJECTILE_ENTITY_SET_VELOCITY = "L" + CLASS_1665 + ";" + METHOD_18800 + "(DDD)V";
 	public static final String THROWN_ENTITY_SET_VELOCITY = "L" + CLASS_1682 + ";" + METHOD_18800 + "(DDD)V";
 	public static final String GET_NAME_LABEL_HEIGHT = "L" + CLASS_1297 + ";" + METHOD_51152 + "()F";
+	public static final String EXPLOSION_WITH_PARTICLES_AND_SOUND_INIT = "<init>(L" + CLASS_1937 + ";L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";L" + CLASS_2394 + ";L" + CLASS_2394 + ";L" + CLASS_3414 + ";)V";
 	
 	// 1.20.4 Minus Client
 	public static final String GET_REACH_DISTANCE = METHOD_2904;
