@@ -17,16 +17,16 @@ Library mod for the Quilt, NeoForge, Forge, and Fabric mod loaders that allows m
 
 ### Playing on NeoForge
 
-- Newest version of the [NeoForge mod loader](https://neoforged.net/) for whichever Minecraft version you're playing on
+- Newest version of the [NeoForge mod loader](https://neoforged.net/) for whichever Minecraft version you're</br>playing on
 
 ### Playing on Forge
 
-- Newest version of the [Forge mod loader](https://files.minecraftforge.net/net/minecraftforge/forge/) for whichever Minecraft version you're playing on
+- Newest version of the [Forge mod loader](https://files.minecraftforge.net/net/minecraftforge/forge/) for whichever Minecraft version you're</br>playing on
 
 ### Playing on Fabric
 
 - Newest version of the [Fabric mod loader](https://fabricmc.net/use/installer/)  
-- Newest version of the [Fabric A](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all)[PI mod](https://modrinth.com/mod/fabric-api/versions) for whichever Minecraft version you're playing on
+- Newest version of the [Fabric A](https://www.curseforge.com/minecraft/mc-mods/fabric-api/files/all)[PI mod](https://modrinth.com/mod/fabric-api/versions) for whichever Minecraft version you're</br>playing on
 </td></table></details>
 
 ## Supported Minecraft Versions
@@ -34,10 +34,13 @@ Library mod for the Quilt, NeoForge, Forge, and Fabric mod loaders that allows m
 <summary>Show/Hide Supported Minecraft Versions</summary><table width=100%><td>
 
 ### Fabric/Quilt Versions
-Supported Versions of `Pehkui-x.y.z+1.14.4-1.20.4`:  
-`1.20.4`, `1.20.2`, `1.20.1`, `1.19.4`, `1.19.2`, `1.18.2`, `1.17.1`, `1.16.5`, `1.15.2`, `1.14.4`
+Supported Versions of `Pehkui-x.y.z+1.14.4-1.20.6`:  
+`1.20.6`, `1.20.4`, `1.20.2`, `1.20.1`, `1.19.4`, `1.19.2`, `1.18.2`, `1.17.1`,</br>`1.16.5`, `1.15.2`, `1.14.4`
 
 ### NeoForge Versions
+
+Supported Versions of `Pehkui-x.y.z+1.20.6-neoforge`:  
+`1.20.6`
 
 Supported Versions of `Pehkui-x.y.z+1.20.4-neoforge`:  
 `1.20.4`
@@ -117,7 +120,7 @@ dependencies {
 <details open>
 <summary>Show/Hide Dependency Configuration Information</summary><table width=100%><td>
 
-Now that a Maven repository is specified, add `pehkui_version=x.y.z-w` to your</br>`gradle.properties`, replacing `x.y.z-w` with one of the available version strings from the</br>[list of release tags](../../../tags).
+Now that a Maven repository is specified, add `pehkui_version=x.y.z-w` to your</br>`gradle.properties`, replacing `x.y.z-w` with one of the available version strings from</br>the [list of release tags](../../../tags).
 
 Lastly, in your `build.gradle`'s `dependencies` block, add the corresponding line from</br>below depending on your mod loader:
 
@@ -179,9 +182,9 @@ Then regenerate your run configurations with `genEclipseRuns`, `genIntellijRuns`
 
 <summary>Show/Hide Fix on Older ForgeGradle (4 and below)</summary><table width=100%><td>
 
-If you're using Forge with ForgeGradle 4 or older, make sure refmap remapping is enabled in your `build.gradle`'s run</br>configuration blocks.
+If you're using Forge with ForgeGradle 4 or older, make sure refmap remapping is enabled</br>in your `build.gradle`'s run configuration blocks.
 
-Make sure the following lines are present in the `client {}`, `server {}`, and `data {}` run configuration blocks.
+Make sure the following lines are present in the `client {}`, `server {}`, and `data {}`</br>run configuration blocks.
 
 ```groovy
 property 'mixin.env.remapRefMap', 'true'
