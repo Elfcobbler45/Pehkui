@@ -245,7 +245,7 @@ public class MixinConstants
 	// 1.15 Plus 1.19.2 Minus Client
 	public static final String GET_BASIC_PROJECTION_MATRIX = METHOD_22973;
 	
-	// 1.15 Plus 1.19.2 Minus Client
+	// 1.15 Plus 1.20.4 Minus Client
 	public static final String SHULKER_ENTITY_SETUP_TRANSFORMS = METHOD_4114;
 	
 	// 1.16
@@ -310,6 +310,8 @@ public class MixinConstants
 	public static final String DRAW_ENTITY_MOUSE_LOOK = METHOD_2486 + "(IIIFFL" + CLASS_1309 + ";)V";
 	public static final String CAN_PLAYER_USE = METHOD_5443;
 	public static final String ENDER_CHEST_CAN_PLAYER_USE = METHOD_11218;
+	public static final String FIELD_6013 = "field_6013";
+	public static final String STEP_HEIGHT = "L" + CLASS_1297 + ";" + FIELD_6013 + ":F";
 	
 	// 1.19.3 Plus 1.20.2 Minus
 	public static final String CREATE_EXPLOSION_TYPED = "L" + CLASS_1937 + ";" + METHOD_8454 + "(L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1937$CLASS_7867 + ";)L" + CLASS_1927 + ";";

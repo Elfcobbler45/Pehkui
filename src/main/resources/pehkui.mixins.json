@@ -174,6 +174,7 @@
 		"compat1203plus.PersistentProjectileEntityMixin",
 		"compat1203plus.ProjectileUtilMixin",
 		"compat1203plus.compat1204minus.ExplosionMixin",
+		"compat1204minus.ArmorStandEntityMixin",
 		"compat1204minus.BoatEntityMixin",
 		"compat1204minus.CrossbowItemMixin",
 		"compat1204minus.HorseScreenHandlerMixin",
