@@ -5,6 +5,7 @@ import java.util.Map;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -33,6 +34,7 @@ public abstract class InventoryScreenMixin
 	@Unique private static final ThreadLocal<Map<ScaleType, ScaleData>> pehkui$SCALES = ThreadLocal.withInitial(Object2ObjectLinkedOpenHashMap::new);
 	@Unique private static final ScaleData pehkui$IDENTITY = ScaleData.Builder.create().build();
 	
+	@Dynamic
 	@Inject(method = MixinConstants.DRAW_ENTITY_WITH_OFFSET, at = @At(value = "HEAD"))
 	private static void pehkui$drawEntity$head(DrawContext drawContext, float x, float y, int size, Vector3f offset, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
 	{
@@ -62,6 +64,7 @@ public abstract class InventoryScreenMixin
 		entity.setBoundingBox(box);
 	}
 	
+	@Dynamic
 	@Inject(method = MixinConstants.DRAW_ENTITY_WITH_OFFSET, at = @At(value = "RETURN"))
 	private static void pehkui$drawEntity$return(DrawContext drawContext, float x, float y, int size, Vector3f offset, Quaternionf quaternionf, @Nullable Quaternionf quaternionf2, LivingEntity entity, CallbackInfo info, @Share("bounds") LocalRef<Box> bounds)
 	{

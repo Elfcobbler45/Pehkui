@@ -93,6 +93,8 @@ public class MixinConstants
 	private static final String METHOD_18378 = "method_18378";
 	private static final String METHOD_18394 = "method_18394";
 	private static final String METHOD_18377 = "method_18377";
+	private static final String METHOD_7498 = "method_7498";
+	private static final String METHOD_7497 = "method_7497";
 	private static final String METHOD_52533 = "method_52533";
 	private static final String METHOD_18800 = "method_18800";
 	private static final String METHOD_51152 = "method_51152";
@@ -140,6 +142,7 @@ public class MixinConstants
 	private static final String CLASS_289 = "net/minecraft/class_289";
 	private static final String CLASS_898 = "net/minecraft/class_898";
 	private static final String CLASS_5575 = "net/minecraft/class_5575";
+	private static final String CLASS_3244 = "net/minecraft/class_3244";
 	private static final String CLASS_1282 = "net/minecraft/class_1282";
 	private static final String CLASS_5362 = "net/minecraft/class_5362";
 	private static final String CLASS_332 = "net/minecraft/class_332";
@@ -291,6 +294,10 @@ public class MixinConstants
 	// 1.19 Minus
 	public static final String UPDATE_PASSENGER_POSITION = METHOD_5865;
 	
+	// 1.19 Plus 1.20.4 Minus
+	public static final String FIELD_37280 = "field_37280";
+	public static final String MAX_BREAK_SQUARED_DISTANCE = "L" + CLASS_3244 + ";" + FIELD_37280 + ":D";
+	
 	// 1.19.2 Minus
 	public static final String CREATE_EXPLOSION = "L" + CLASS_1937 + ";" + METHOD_8437 + "(L" + CLASS_1297 + ";DDDFL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";";
 	public static final String CREATE_EXPLOSION_OPTIONAL_FIRE = "L" + CLASS_1937 + ";" + METHOD_8537 + "(L" + CLASS_1297 + ";DDDFZL" + CLASS_1927$CLASS_4179 + ";)L" + CLASS_1927 + ";";
@@ -337,7 +344,10 @@ public class MixinConstants
 	public static final String GET_ACTIVE_EYE_HEIGHT = METHOD_18394 + "(L" + CLASS_4050 + ";L" + CLASS_4048 + ";)F";
 	public static final String GET_ACTIVE_EYE_HEIGHT_TARGET = "L" + CLASS_1309 + ";" + GET_ACTIVE_EYE_HEIGHT;
 	public static final String GET_DIMENSIONS = METHOD_18377 + "(L" + CLASS_4050 + ";)L" + CLASS_4048 + ";";
+	public static final String APPLY_SPLASH_POTION = METHOD_7498;
+	public static final String APPLY_LINGERING_POTION = METHOD_7497;
 	public static final String GET_PASSENGER_ATTACHMENT_POS = "L" + CLASS_1297 + ";" + METHOD_52533 + "(L" + CLASS_1297 + ";L" + CLASS_4048 + ";F)Lorg/joml/Vector3f;";
+	public static final String LIVING_ENTITY_GET_PASSENGER_ATTACHMENT_POS = "L" + CLASS_1309 + ";" + METHOD_52533 + "(L" + CLASS_1297 + ";L" + CLASS_4048 + ";F)Lorg/joml/Vector3f;";
 	public static final String PERSISTENT_PROJECTILE_ENTITY_SET_VELOCITY = "L" + CLASS_1665 + ";" + METHOD_18800 + "(DDD)V";
 	public static final String THROWN_ENTITY_SET_VELOCITY = "L" + CLASS_1682 + ";" + METHOD_18800 + "(DDD)V";
 	public static final String GET_NAME_LABEL_HEIGHT = "L" + CLASS_1297 + ";" + METHOD_51152 + "()F";
