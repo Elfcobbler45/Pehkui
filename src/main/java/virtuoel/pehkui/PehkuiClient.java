@@ -14,6 +14,7 @@ import virtuoel.pehkui.network.ConfigSyncPacket;
 import virtuoel.pehkui.network.ConfigSyncPayload;
 import virtuoel.pehkui.network.DebugPacket;
 import virtuoel.pehkui.network.DebugPayload;
+import virtuoel.pehkui.network.ScalePacket;
 import virtuoel.pehkui.network.ScalePayload;
 import virtuoel.pehkui.server.command.DebugCommand.DebugPacketType;
 import virtuoel.pehkui.util.I18nUtils;
@@ -69,18 +70,18 @@ public class PehkuiClient implements ClientModInitializer
 	
 	public static void handleScalePacket(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, Object responseSender)
 	{
-		handleScalePacket(client, new ScalePayload(buf));
+		handleScalePacket(client, new ScalePacket(buf));
 	}
 	
-	protected static void handleScalePacket(MinecraftClient client, ScalePayload payload)
+	protected static void handleScalePacket(MinecraftClient client, ScalePacket packet)
 	{
 		client.execute(() ->
 		{
-			final Entity e = client.world.getEntityById(payload.entityId);
+			final Entity e = client.world.getEntityById(packet.entityId);
 			
 			if (e != null)
 			{
-				payload.syncedScales.forEach((typeId, scaleData) ->
+				packet.syncedScales.forEach((typeId, scaleData) ->
 				{
 					if (ScaleRegistries.SCALE_TYPES.containsKey(typeId))
 					{
