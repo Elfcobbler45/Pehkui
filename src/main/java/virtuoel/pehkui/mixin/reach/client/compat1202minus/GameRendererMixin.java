@@ -19,8 +19,8 @@ public class GameRendererMixin
 	@Shadow @Final @Mutable
 	MinecraftClient client;
 	
-	@ModifyExpressionValue(method = "updateTargetedEntity", at = @At(value = "CONSTANT", args = "doubleValue=3.0D"))
-	private double pehkui$updateTargetedEntity$distance(double value, float tickDelta)
+	@ModifyExpressionValue(method = "updateCrosshairTarget", at = @At(value = "CONSTANT", args = "doubleValue=3.0D"))
+	private double pehkui$updateCrosshairTarget$distance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		

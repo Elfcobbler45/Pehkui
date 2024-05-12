@@ -20,8 +20,8 @@ public class GameRendererMixin
 	@Shadow @Final @Mutable
 	MinecraftClient client;
 	
-	@ModifyVariable(method = "updateTargetedEntity", ordinal = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getCameraPosVec(F)Lnet/minecraft/util/math/Vec3d;"))
-	private double pehkui$updateTargetedEntity$setDistance(double value, float tickDelta)
+	@ModifyVariable(method = "updateCrosshairTarget", ordinal = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getCameraPosVec(F)Lnet/minecraft/util/math/Vec3d;"))
+	private double pehkui$updateCrosshairTarget$setDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
@@ -38,8 +38,8 @@ public class GameRendererMixin
 		return value;
 	}
 	
-	@ModifyVariable(method = "updateTargetedEntity", ordinal = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getRotationVec(F)Lnet/minecraft/util/math/Vec3d;"))
-	private double pehkui$updateTargetedEntity$fixDistance(double value, float tickDelta)
+	@ModifyVariable(method = "updateCrosshairTarget", ordinal = 0, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getRotationVec(F)Lnet/minecraft/util/math/Vec3d;"))
+	private double pehkui$updateCrosshairTarget$fixDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
@@ -54,8 +54,8 @@ public class GameRendererMixin
 		return value;
 	}
 	
-	@ModifyVariable(method = "updateTargetedEntity", ordinal = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getRotationVec(F)Lnet/minecraft/util/math/Vec3d;"))
-	private double pehkui$updateTargetedEntity$fixSquaredDistance(double value, float tickDelta)
+	@ModifyVariable(method = "updateCrosshairTarget", ordinal = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getRotationVec(F)Lnet/minecraft/util/math/Vec3d;"))
+	private double pehkui$updateCrosshairTarget$fixSquaredDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		

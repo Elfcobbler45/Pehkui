@@ -23,8 +23,8 @@ public class GameRendererMixin
 	@Shadow @Final @Mutable
 	MinecraftClient client;
 	
-	@ModifyVariable(method = "updateTargetedEntity", ordinal = 0, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/Entity;getCameraPosVec(F)Lnet/minecraft/util/math/Vec3d;"))
-	private double pehkui$updateTargetedEntity$setDistance(double value, float tickDelta)
+	@ModifyVariable(method = "updateCrosshairTarget", ordinal = 0, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/entity/Entity;getCameraPosVec(F)Lnet/minecraft/util/math/Vec3d;"))
+	private double pehkui$updateCrosshairTarget$setDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
@@ -41,8 +41,8 @@ public class GameRendererMixin
 		return value;
 	}
 	
-	@ModifyVariable(method = "updateTargetedEntity", ordinal = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getRotationVec(F)Lnet/minecraft/util/math/Vec3d;"))
-	private double pehkui$updateTargetedEntity$squaredDistance(double value, float tickDelta)
+	@ModifyVariable(method = "updateCrosshairTarget", ordinal = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getRotationVec(F)Lnet/minecraft/util/math/Vec3d;"))
+	private double pehkui$updateCrosshairTarget$squaredDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
@@ -61,8 +61,8 @@ public class GameRendererMixin
 		return value;
 	}
 	
-	@ModifyExpressionValue(method = "updateTargetedEntity", at = @At(value = "CONSTANT", args = "doubleValue=6.0D"))
-	private double pehkui$updateTargetedEntity$extendedDistance(double value, float tickDelta)
+	@ModifyExpressionValue(method = "updateCrosshairTarget", at = @At(value = "CONSTANT", args = "doubleValue=6.0D"))
+	private double pehkui$updateCrosshairTarget$extendedDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		
@@ -79,8 +79,8 @@ public class GameRendererMixin
 		return value;
 	}
 	
-	@ModifyExpressionValue(method = "updateTargetedEntity", at = @At(value = "CONSTANT", args = "doubleValue=9.0D"))
-	private double pehkui$updateTargetedEntity$squaredMaxDistance(double value, float tickDelta)
+	@ModifyExpressionValue(method = "updateCrosshairTarget", at = @At(value = "CONSTANT", args = "doubleValue=9.0D"))
+	private double pehkui$updateCrosshairTarget$squaredMaxDistance(double value, float tickDelta)
 	{
 		final Entity entity = client.getCameraEntity();
 		

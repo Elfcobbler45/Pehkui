@@ -78,6 +78,8 @@ public class MixinConstants
 	private static final String METHOD_5865 = "method_5865";
 	private static final String METHOD_8437 = "method_8437";
 	private static final String METHOD_2486 = "method_2486";
+	private static final String METHOD_5443 = "method_5443";
+	private static final String METHOD_11218 = "method_11218";
 	private static final String METHOD_8454 = "method_8454";
 	private static final String METHOD_48472 = "method_48472";
 	private static final String METHOD_5621 = "method_5621";
@@ -295,6 +297,8 @@ public class MixinConstants
 	
 	// 1.19.3 Minus
 	public static final String DRAW_ENTITY_MOUSE_LOOK = METHOD_2486 + "(IIIFFL" + CLASS_1309 + ";)V";
+	public static final String CAN_PLAYER_USE = METHOD_5443;
+	public static final String ENDER_CHEST_CAN_PLAYER_USE = METHOD_11218;
 	
 	// 1.19.3 Plus 1.20.2 Minus
 	public static final String CREATE_EXPLOSION_TYPED = "L" + CLASS_1937 + ";" + METHOD_8454 + "(L" + CLASS_1297 + ";L" + CLASS_1282 + ";L" + CLASS_5362 + ";DDDFZL" + CLASS_1937$CLASS_7867 + ";)L" + CLASS_1927 + ";";

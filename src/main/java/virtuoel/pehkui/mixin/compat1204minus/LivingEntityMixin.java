@@ -20,7 +20,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 public class LivingEntityMixin
 {
 	@Dynamic
-	@ModifyArg(method = "getEyeHeight", index = 1, at = @At(value = "INVOKE", target = MixinConstants.GET_ACTIVE_EYE_HEIGHT_TARGET))
+	@ModifyArg(method = MixinConstants.GET_EYE_HEIGHT, index = 1, at = @At(value = "INVOKE", target = MixinConstants.GET_ACTIVE_EYE_HEIGHT_TARGET))
 	private EntityDimensions pehkui$getEyeHeight$dimensions(EntityDimensions dimensions)
 	{
 		return dimensions.scaled(1.0F / ScaleUtils.getEyeHeightScale((Entity) (Object) this));
