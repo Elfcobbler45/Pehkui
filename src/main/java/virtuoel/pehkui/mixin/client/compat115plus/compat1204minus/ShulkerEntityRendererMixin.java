@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.client.compat115plus.compat1204minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -9,15 +10,18 @@ import net.minecraft.client.render.entity.ShulkerEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.mob.ShulkerEntity;
 import net.minecraft.util.math.Direction;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ShulkerEntityRenderer.class)
 public class ShulkerEntityRendererMixin
 {
-	@Inject(at = @At("RETURN"), method = "setupTransforms")
+	@Dynamic
+	@Inject(at = @At("RETURN"), method = MixinConstants.SHULKER_ENTITY_SETUP_TRANSFORMS)
 	private void pehkui$setupTransforms(ShulkerEntity entity, MatrixStack matrices, float animationProgress, float bodyYaw, float tickDelta, CallbackInfo info)
 	{
 		final Direction face = entity.getAttachedFace();
+		
 		if (face != Direction.DOWN)
 		{
 			final float h = ScaleUtils.getModelHeightScale(entity, tickDelta);

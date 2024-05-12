@@ -31,6 +31,7 @@ public class MixinConstants
 	private static final String METHOD_6249 = "method_6249";
 	private static final String METHOD_23883 = "method_23883";
 	private static final String METHOD_22973 = "method_22973";
+	private static final String METHOD_4114 = "method_4114";
 	private static final String METHOD_7492 = "method_7492";
 	private static final String METHOD_6959 = "method_6959";
 	private static final String METHOD_6091 = "method_6091";
@@ -243,6 +244,9 @@ public class MixinConstants
 	
 	// 1.15 Plus 1.19.2 Minus Client
 	public static final String GET_BASIC_PROJECTION_MATRIX = METHOD_22973;
+	
+	// 1.15 Plus 1.19.2 Minus Client
+	public static final String SHULKER_ENTITY_SETUP_TRANSFORMS = METHOD_4114;
 	
 	// 1.16
 	public static final String IS_INSIDE_WALL = METHOD_5757 + "()Z";
