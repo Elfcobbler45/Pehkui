@@ -24,6 +24,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -98,7 +99,7 @@ public class DebugCommand
 							
 							if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
 							{
-								packet = ServerPlayNetworking.createS2CPacket(new DebugPayload(DebugPacketType.GARBAGE_COLLECT));
+								packet = ServerPlayNetworking.createS2CPacket((CustomPayload) (Object) new DebugPayload(DebugPacketType.GARBAGE_COLLECT));
 							}
 							else
 							{
@@ -219,7 +220,7 @@ public class DebugCommand
 			
 			if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
 			{
-				packet = ServerPlayNetworking.createS2CPacket(new DebugPayload(DebugPacketType.MIXIN_AUDIT));
+				packet = ServerPlayNetworking.createS2CPacket((CustomPayload) (Object) new DebugPayload(DebugPacketType.MIXIN_AUDIT));
 			}
 			else
 			{

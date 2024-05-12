@@ -28,6 +28,7 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -150,7 +151,7 @@ public class ConfigSyncUtils
 	{
 		if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
 		{
-			return ServerPlayNetworking.createS2CPacket(new ConfigSyncPayload(configEntries));
+			return ServerPlayNetworking.createS2CPacket((CustomPayload) (Object) new ConfigSyncPayload(configEntries));
 		}
 		else
 		{

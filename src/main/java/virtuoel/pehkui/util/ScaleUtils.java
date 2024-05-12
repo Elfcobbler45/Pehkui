@@ -17,6 +17,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.CustomPayload;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.util.Identifier;
@@ -257,7 +258,7 @@ public class ScaleUtils
 			{
 				if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
 				{
-					packetSender.accept(ServerPlayNetworking.createS2CPacket(new ScalePayload(entity, syncedScales)));
+					packetSender.accept(ServerPlayNetworking.createS2CPacket((CustomPayload) (Object) new ScalePayload(entity, syncedScales)));
 				}
 				else
 				{
