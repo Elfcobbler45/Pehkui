@@ -80,12 +80,12 @@ public final class ReflectionUtils
 			
 			if (is1204Minus)
 			{
-				mapped = mappingResolver.mapFieldName("intermediary", "net.minecraft.class_4048", "field_18068", "F");
+				mapped = mappingResolver.mapFieldName("intermediary", "net.minecraft.class_4048", "field_18067", "F");
 				f = EntityDimensions.class.getField(mapped);
 				f.setAccessible(true);
 				h.put(5, lookup.unreflectGetter(f));
 				
-				mapped = mappingResolver.mapFieldName("intermediary", "net.minecraft.class_4048", "field_18067", "F");
+				mapped = mappingResolver.mapFieldName("intermediary", "net.minecraft.class_4048", "field_18068", "F");
 				f = EntityDimensions.class.getField(mapped);
 				f.setAccessible(true);
 				h.put(6, lookup.unreflectGetter(f));
