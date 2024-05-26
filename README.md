@@ -39,9 +39,6 @@ Supported Versions of `Pehkui-x.y.z+1.14.4-1.20.6`:
 
 ### NeoForge Versions
 
-Supported Versions of `Pehkui-x.y.z+1.20.6-neoforge`:  
-`1.20.6`
-
 Supported Versions of `Pehkui-x.y.z+1.20.4-neoforge`:  
 `1.20.4`
 
