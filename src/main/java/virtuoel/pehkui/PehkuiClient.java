@@ -32,7 +32,27 @@ public class PehkuiClient implements ClientModInitializer
 		{
 			if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
 			{
-				V1NetworkingApi1205PlusClassloading.registerPacketHandlers();
+				new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						ClientPlayNetworking.registerGlobalReceiver(ScalePayload.ID, (payload, context) ->
+						{
+							handleScalePacket(context.client(), payload);
+						});
+						
+						ClientPlayNetworking.registerGlobalReceiver(ConfigSyncPayload.ID, (payload, context) ->
+						{
+							context.client().execute(payload.action);
+						});
+						
+						ClientPlayNetworking.registerGlobalReceiver(DebugPayload.ID, (payload, context) ->
+						{
+							handleDebugPacket(context.client(), payload.type);
+						});
+					}
+				}.run();
 			}
 			else
 			{
@@ -44,27 +64,6 @@ public class PehkuiClient implements ClientModInitializer
 		else
 		{
 			Pehkui.LOGGER.error("Failed to register Pehkui's packet handlers! Is Fabric API's networking module missing?");
-		}
-	}
-	
-	public static class V1NetworkingApi1205PlusClassloading
-	{
-		public static void registerPacketHandlers()
-		{
-			ClientPlayNetworking.registerGlobalReceiver(ScalePayload.ID, (payload, context) ->
-			{
-				handleScalePacket(context.client(), payload);
-			});
-			
-			ClientPlayNetworking.registerGlobalReceiver(ConfigSyncPayload.ID, (payload, context) ->
-			{
-				context.client().execute(payload.action);
-			});
-			
-			ClientPlayNetworking.registerGlobalReceiver(DebugPayload.ID, (payload, context) ->
-			{
-				handleDebugPacket(context.client(), payload.type);
-			});
 		}
 	}
 	

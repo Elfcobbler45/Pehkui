@@ -47,7 +47,17 @@ public class CommandUtils
 	{
 		if (ModLoaderUtils.isModLoaded("fabric-command-api-v2"))
 		{
-			V2ApiClassloading.registerV2ApiCommands();
+			new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) ->
+					{
+						registerCommands(dispatcher);
+					});
+				}
+			}.run();
 		}
 		else if (ModLoaderUtils.isModLoaded("fabric-command-api-v1"))
 		{
@@ -59,7 +69,21 @@ public class CommandUtils
 	{
 		if (ModLoaderUtils.isModLoaded("fabric-command-api-v2") && ModLoaderUtils.isModLoaded("fabric-registry-sync-v0"))
 		{
-			V2ApiClassloading.registerArgumentTypes();
+			new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					CommandUtils.registerArgumentTypes(new ArgumentTypeConsumer()
+					{
+						@Override
+						public <T extends ArgumentType<?>> void register(Identifier id, Class<T> argClass, Supplier<T> supplier)
+						{
+							ArgumentTypeRegistry.registerArgumentType(id, argClass, ConstantArgumentSerializer.of(supplier));
+						}
+					});
+				}
+			}.run();
 		}
 		else if (VersionUtils.MINOR <= 18)
 		{
@@ -71,29 +95,6 @@ public class CommandUtils
 	{
 		ScaleCommand.register(dispatcher);
 		DebugCommand.register(dispatcher);
-	}
-	
-	private static class V2ApiClassloading
-	{
-		private static void registerV2ApiCommands()
-		{
-			CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, dedicated) ->
-			{
-				registerCommands(dispatcher);
-			});
-		}
-		
-		private static void registerArgumentTypes()
-		{
-			CommandUtils.registerArgumentTypes(new ArgumentTypeConsumer()
-			{
-				@Override
-				public <T extends ArgumentType<?>> void register(Identifier id, Class<T> argClass, Supplier<T> supplier)
-				{
-					ArgumentTypeRegistry.registerArgumentType(id, argClass, ConstantArgumentSerializer.of(supplier));
-				}
-			});
-		}
 	}
 	
 	private static void registerV1ApiCommands()
