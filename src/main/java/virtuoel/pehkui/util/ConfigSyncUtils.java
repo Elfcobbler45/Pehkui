@@ -38,6 +38,7 @@ import virtuoel.kanos_config.api.JsonConfigHandler;
 import virtuoel.kanos_config.api.MutableConfigEntry;
 import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.PehkuiConfig;
+import virtuoel.pehkui.network.ConfigSyncPacket;
 import virtuoel.pehkui.network.ConfigSyncPayload;
 
 public class ConfigSyncUtils
@@ -157,7 +158,7 @@ public class ConfigSyncUtils
 		{
 			final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
 			
-			new ConfigSyncPayload(configEntries).write(buffer);
+			new ConfigSyncPacket(configEntries).write(buffer);
 			
 			return ReflectionUtils.createS2CPacket(Pehkui.CONFIG_SYNC_PACKET, buffer);
 		}
