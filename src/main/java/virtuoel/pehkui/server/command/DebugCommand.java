@@ -99,13 +99,13 @@ public class DebugCommand
 							
 							if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
 							{
-								packet = ServerPlayNetworking.createS2CPacket((CustomPayload) (Object) new DebugPayload(DebugPacketType.GARBAGE_COLLECT));
+								packet = ServerPlayNetworking.createS2CPacket((CustomPayload) (Object) new DebugPayload(PacketType.GARBAGE_COLLECT));
 							}
 							else
 							{
 								final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
 								
-								new DebugPacket(DebugPacketType.GARBAGE_COLLECT).write(buffer);
+								new DebugPacket(PacketType.GARBAGE_COLLECT).write(buffer);
 								
 								packet = ReflectionUtils.createS2CPacket(Pehkui.DEBUG_PACKET, buffer);
 							}
@@ -204,7 +204,7 @@ public class DebugCommand
 		return 1;
 	}
 	
-	public static enum DebugPacketType
+	public static enum PacketType
 	{
 		MIXIN_AUDIT,
 		GARBAGE_COLLECT
@@ -220,13 +220,13 @@ public class DebugCommand
 			
 			if (VersionUtils.MINOR > 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH >= 5))
 			{
-				packet = ServerPlayNetworking.createS2CPacket((CustomPayload) (Object) new DebugPayload(DebugPacketType.MIXIN_AUDIT));
+				packet = ServerPlayNetworking.createS2CPacket((CustomPayload) (Object) new DebugPayload(PacketType.MIXIN_AUDIT));
 			}
 			else
 			{
 				final PacketByteBuf buffer = new PacketByteBuf(Unpooled.buffer());
 				
-				new DebugPacket(DebugPacketType.MIXIN_AUDIT).write(buffer);
+				new DebugPacket(PacketType.MIXIN_AUDIT).write(buffer);
 				
 				packet = ReflectionUtils.createS2CPacket(Pehkui.DEBUG_PACKET, buffer);
 			}

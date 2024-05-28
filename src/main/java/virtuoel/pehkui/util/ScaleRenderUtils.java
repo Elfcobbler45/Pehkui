@@ -125,23 +125,6 @@ public class ScaleRenderUtils
 		HAS_EXTENDED_REACH = handles.get(5);
 	}
 	
-	public static boolean hasExtendedReach(final ClientPlayerInteractionManager interactionManager)
-	{
-		if (HAS_EXTENDED_REACH != null)
-		{
-			try
-			{
-				return (boolean) HAS_EXTENDED_REACH.invoke(interactionManager);
-			}
-			catch (Throwable e)
-			{
-				throw new RuntimeException(e);
-			}
-		}
-		
-		return interactionManager.getCurrentGameMode().isCreative();
-	}
-	
 	public static void registerPacketHandler(Identifier id, Class<?> clazz, String methodName)
 	{
 		if (REGISTER_GLOBAL_RECEIVER != null && RECEIVE_TYPE != null && FACTORY_METHOD_TYPE != null && PACKET_SENDER != null)
@@ -164,6 +147,23 @@ public class ScaleRenderUtils
 				throw new RuntimeException(e);
 			}
 		}
+	}
+	
+	public static boolean hasExtendedReach(final ClientPlayerInteractionManager interactionManager)
+	{
+		if (HAS_EXTENDED_REACH != null)
+		{
+			try
+			{
+				return (boolean) HAS_EXTENDED_REACH.invoke(interactionManager);
+			}
+			catch (Throwable e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return interactionManager.getCurrentGameMode().isCreative();
 	}
 	
 	public static boolean wasPlayerAlive(final PlayerRespawnS2CPacket packet)

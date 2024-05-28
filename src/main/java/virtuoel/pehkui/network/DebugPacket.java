@@ -1,20 +1,20 @@
 package virtuoel.pehkui.network;
 
 import net.minecraft.network.PacketByteBuf;
-import virtuoel.pehkui.server.command.DebugCommand.DebugPacketType;
+import virtuoel.pehkui.server.command.DebugCommand;
 
 public class DebugPacket
 {
-	public final DebugPacketType type;
+	public final DebugCommand.PacketType type;
 	
-	public DebugPacket(final DebugPacketType type)
+	public DebugPacket(final DebugCommand.PacketType type)
 	{
 		this.type = type;
 	}
 	
 	public DebugPacket(final PacketByteBuf buf)
 	{
-		this.type = buf.readEnumConstant(DebugPacketType.class);
+		this.type = buf.readEnumConstant(DebugCommand.PacketType.class);
 	}
 	
 	public void write(final PacketByteBuf buf)

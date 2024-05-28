@@ -16,7 +16,7 @@ import virtuoel.pehkui.network.DebugPacket;
 import virtuoel.pehkui.network.DebugPayload;
 import virtuoel.pehkui.network.ScalePacket;
 import virtuoel.pehkui.network.ScalePayload;
-import virtuoel.pehkui.server.command.DebugCommand.DebugPacketType;
+import virtuoel.pehkui.server.command.DebugCommand;
 import virtuoel.pehkui.util.I18nUtils;
 import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.ScaleRenderUtils;
@@ -101,7 +101,7 @@ public class PehkuiClient implements ClientModInitializer
 		handleDebugPacket(client, new DebugPacket(buf).type);
 	}
 	
-	protected static void handleDebugPacket(MinecraftClient client, DebugPacketType type)
+	protected static void handleDebugPacket(MinecraftClient client, DebugCommand.PacketType type)
 	{
 		client.execute(() ->
 		{

@@ -4,14 +4,14 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.packet.CustomPayload;
 import virtuoel.pehkui.Pehkui;
-import virtuoel.pehkui.server.command.DebugCommand.DebugPacketType;
+import virtuoel.pehkui.server.command.DebugCommand;
 
 public class DebugPayload extends DebugPacket implements CustomPayload
 {
 	public static final CustomPayload.Id<DebugPayload> ID = new CustomPayload.Id<>(Pehkui.DEBUG_PACKET);
 	public static final PacketCodec<PacketByteBuf, DebugPayload> CODEC = codec(ID);
 	
-	public DebugPayload(final DebugPacketType type)
+	public DebugPayload(final DebugCommand.PacketType type)
 	{
 		super(type);
 	}
