@@ -220,7 +220,7 @@ eclipse {
 	}
 	else {
 		def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
-		def patch = (minecraft_version.split(/\./, -1)[1] as Integer)
+		def patch = (minecraft_version.split(/\./, -1)[2] as Integer)
 		jdt {
 			javaRuntimeName = "JavaSE-${minor > 20 || (minor == 20 && patch >= 5) ? 21 : minor >= 18 ? 17 : minor >= 17 ? 16 : 1.8}"
 		}
@@ -232,7 +232,14 @@ tasks.withType(JavaCompile) {
 	options.compilerArgs += [ "-Xmaxwarns", "0" ]
 	
 	javaCompiler = javaToolchains.compilerFor {
-		languageVersion = JavaLanguageVersion.of(21)
+		if(!proj.hasProperty("neoforge_version") && !proj.hasProperty("forge_version")) {
+			languageVersion = JavaLanguageVersion.of(21)
+		}
+		else {
+			def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
+			def patch = (minecraft_version.split(/\./, -1)[2] as Integer)
+			languageVersion = JavaLanguageVersion.of(minor > 20 || (minor == 20 && patch >= 5) ? 21 : minor >= 18 ? 17 : minor >= 17 ? 16 : 8)
+		}
 	}
 }
 
@@ -250,7 +257,7 @@ java {
 	}
 	else {
 		def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
-		def patch = (minecraft_version.split(/\./, -1)[1] as Integer)
+		def patch = (minecraft_version.split(/\./, -1)[2] as Integer)
 		if(minor > 20 || (minor == 20 && patch >= 5)) {
 			sourceCompatibility = JavaVersion.VERSION_21
 			targetCompatibility = JavaVersion.VERSION_21
@@ -277,6 +284,19 @@ jar {
 tasks.named("sourcesJar") {
 	exclude "*.mod.json"
 	exclude "META-INF/*mods.toml"
+}
+
+tasks.named({ it in [ "runClient", "runServer" ] }).configureEach {
+	javaLauncher = javaToolchains.launcherFor {
+		if(!proj.hasProperty("neoforge_version") && !proj.hasProperty("forge_version")) {
+			languageVersion = JavaLanguageVersion.of(21)
+		}
+		else {
+			def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
+			def patch = (minecraft_version.split(/\./, -1)[2] as Integer)
+			languageVersion = JavaLanguageVersion.of(minor > 20 || (minor == 20 && patch >= 5) ? 21 : minor >= 18 ? 17 : minor >= 17 ? 16 : 8)
+		}
+	}
 }
 
 publishing {
