@@ -240,6 +240,7 @@ tasks.withType(JavaCompile) {
 			def patch = (minecraft_version.split(/\./, -1)[2] as Integer)
 			languageVersion = JavaLanguageVersion.of(minor > 20 || (minor == 20 && patch >= 5) ? 21 : minor >= 18 ? 17 : minor >= 17 ? 16 : 8)
 		}
+		vendor = JvmVendorSpec.ADOPTIUM
 	}
 }
 
@@ -275,6 +276,10 @@ java {
 			targetCompatibility = JavaVersion.VERSION_1_8
 		}
 	}
+	
+	toolchain {
+		vendor = JvmVendorSpec.ADOPTIUM
+	}
 }
 
 jar {
@@ -296,6 +301,7 @@ tasks.named({ it in [ "runClient", "runServer" ] }).configureEach {
 			def patch = (minecraft_version.split(/\./, -1)[2] as Integer)
 			languageVersion = JavaLanguageVersion.of(minor > 20 || (minor == 20 && patch >= 5) ? 21 : minor >= 18 ? 17 : minor >= 17 ? 16 : 8)
 		}
+		vendor = JvmVendorSpec.ADOPTIUM
 	}
 }
 
