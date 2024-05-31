@@ -14,7 +14,18 @@ public class DebugPacket
 	
 	public DebugPacket(final PacketByteBuf buf)
 	{
-		this.type = buf.readEnumConstant(DebugCommand.PacketType.class);
+		DebugCommand.PacketType read;
+		
+		try
+		{
+			read = buf.readEnumConstant(DebugCommand.PacketType.class);
+		}
+		catch (Exception e)
+		{
+			read = null;
+		}
+		
+		this.type = read;
 	}
 	
 	public void write(final PacketByteBuf buf)
