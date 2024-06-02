@@ -107,15 +107,22 @@ if(project.hasProperty("fabric_version")) {
 
 dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
-	if(!project.yarn_mappings.contains(", ")) {
-		mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
-	}
-	else {
+	
+	def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
+	def patch = (minecraft_version.split(/\./, -1)[2] as Integer)
+	
+	if(project.yarn_mappings.contains(", ") || (project.hasProperty("neoforge_version") && (minor > 20 || (minor == 20 && patch >= 5)))) {
 		mappings loom.layered {
 			project.yarn_mappings.split(", ").each { String mapping ->
 				mappings "net.fabricmc:yarn:${mapping}:v2"
 			}
+			if(project.hasProperty("neoforge_version") && (minor > 20 || (minor == 20 && patch >= 5))) {
+				mappings "dev.architectury:yarn-mappings-patch-neoforge:1.20.5+build.3"
+			}
 		}
+	}
+	else {
+		mappings "net.fabricmc:yarn:${yarn_mappings}:v2"
 	}
 	
 	if(project.hasProperty("neoforge_version") && !project.hasProperty("forge_version")) {
@@ -130,7 +137,6 @@ dependencies {
 		}
 		
 		if(project.hasProperty("mixin_extras_version")) {
-			def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
 			if(minor >= 18) {
 				compileOnly(annotationProcessor("io.github.llamalad7:mixinextras-common:${mixin_extras_version}"))
 				implementation(include("io.github.llamalad7:mixinextras-forge:${mixin_extras_version}"))
