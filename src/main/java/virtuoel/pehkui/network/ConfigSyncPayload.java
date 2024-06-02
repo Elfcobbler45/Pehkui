@@ -24,12 +24,12 @@ public class ConfigSyncPayload extends ConfigSyncPacket implements CustomPayload
 	}
 	
 	@Override
-	public Id<? extends CustomPayload> getId()
+	public CustomPayload.Id<? extends CustomPayload> getId()
 	{
 		return ID;
 	}
 	
-	private static PacketCodec<PacketByteBuf, ConfigSyncPayload> codec(final Id<ConfigSyncPayload> id)
+	private static PacketCodec<PacketByteBuf, ConfigSyncPayload> codec(final CustomPayload.Id<ConfigSyncPayload> id)
 	{
 		return CustomPayload.codecOf(ConfigSyncPayload::write, ConfigSyncPayload::new);
 	}

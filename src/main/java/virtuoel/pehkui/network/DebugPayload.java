@@ -22,12 +22,12 @@ public class DebugPayload extends DebugPacket implements CustomPayload
 	}
 	
 	@Override
-	public Id<? extends CustomPayload> getId()
+	public CustomPayload.Id<? extends CustomPayload> getId()
 	{
 		return ID;
 	}
 	
-	private static PacketCodec<PacketByteBuf, DebugPayload> codec(final Id<DebugPayload> id)
+	private static PacketCodec<PacketByteBuf, DebugPayload> codec(final CustomPayload.Id<DebugPayload> id)
 	{
 		return CustomPayload.codecOf(DebugPayload::write, DebugPayload::new);
 	}

@@ -25,12 +25,12 @@ public class ScalePayload extends ScalePacket implements CustomPayload
 	}
 	
 	@Override
-	public Id<? extends CustomPayload> getId()
+	public CustomPayload.Id<? extends CustomPayload> getId()
 	{
 		return ID;
 	}
 	
-	private static PacketCodec<PacketByteBuf, ScalePayload> codec(final Id<ScalePayload> id)
+	private static PacketCodec<PacketByteBuf, ScalePayload> codec(final CustomPayload.Id<ScalePayload> id)
 	{
 		return CustomPayload.codecOf(ScalePayload::write, ScalePayload::new);
 	}
