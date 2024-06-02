@@ -8,7 +8,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -416,7 +415,7 @@ public class ConfigSyncUtils
 		
 		builder.executes(context ->
 		{
-			for (final Entry<String, SyncableConfigEntry<?>> entry : SYNCED_CONFIGS.entrySet())
+			for (final Map.Entry<String, SyncableConfigEntry<?>> entry : SYNCED_CONFIGS.entrySet())
 			{
 				entry.getValue().reset();
 			}
@@ -447,7 +446,7 @@ public class ConfigSyncUtils
 		ArgumentType<?> argType;
 		String[] keys;
 		ArgumentBuilder<ServerCommandSource, ?> root, temp;
-		for (final Entry<String, SyncableConfigEntry<?>> entry : SYNCED_CONFIGS.entrySet())
+		for (final Map.Entry<String, SyncableConfigEntry<?>> entry : SYNCED_CONFIGS.entrySet())
 		{
 			final String key = entry.getKey();
 			final ConfigEntryCodec<?> codec = SYNCED_CONFIG_CODECS.get(key);

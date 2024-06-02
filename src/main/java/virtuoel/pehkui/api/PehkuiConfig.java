@@ -1,7 +1,7 @@
 package virtuoel.pehkui.api;
 
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -80,7 +80,7 @@ public class PehkuiConfig
 			String namespace, path;
 			ScaleType type;
 			Supplier<Double> min, max;
-			for (final Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
+			for (final Map.Entry<Identifier, ScaleType> entry : ScaleRegistries.SCALE_TYPES.entrySet())
 			{
 				id = entry.getKey();
 				namespace = id.getNamespace();

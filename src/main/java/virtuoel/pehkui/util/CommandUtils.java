@@ -4,7 +4,6 @@ import java.lang.invoke.CallSite;
 import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodHandles.Lookup;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -101,7 +100,7 @@ public class CommandUtils
 	{
 		try
 		{
-			final Lookup lookup = MethodHandles.lookup();
+			final MethodHandles.Lookup lookup = MethodHandles.lookup();
 			
 			final Method staticRegister = CommandUtils.class.getDeclaredMethod("registerV1ApiCommands", CommandDispatcher.class, boolean.class);
 			final MethodHandle staticRegisterHandle = lookup.unreflect(staticRegister);
@@ -156,7 +155,7 @@ public class CommandUtils
 		final MappingResolver mappingResolver = FabricLoader.getInstance().getMappingResolver();
 		final Int2ObjectMap<MethodHandle> h = new Int2ObjectArrayMap<MethodHandle>();
 		
-		final Lookup lookup = MethodHandles.lookup();
+		final MethodHandles.Lookup lookup = MethodHandles.lookup();
 		String mapped = "unset";
 		Method m;
 		
