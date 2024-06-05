@@ -48,6 +48,8 @@ group = project.maven_group
 base.archivesName = project.archives_base_name
 version = project.mod_version + "+" + (ENV.BUILD_NUMBER ? "build.${ENV.BUILD_NUMBER}-" : "") + (project.hasProperty("metadata_minecraft_versions") ? project.metadata_minecraft_versions : project.minecraft_version)
 
+def minecraftVersionNumber = VersionNumber.parse(minecraft_version)
+
 if(project.hasProperty("neoforge_version") && !project.hasProperty("forge_version")) {
 	version += "-neoforge"
 }
@@ -61,7 +63,7 @@ else if(project.hasProperty("forge_version")) {
 	}
 	
 	if(project.hasProperty("mixin_extras_version")) {
-		def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
+		def minor = minecraftVersionNumber.getMinor()
 		if(minor < 18) {
 			apply plugin: "com.github.johnrengelman.shadow"
 			
@@ -108,8 +110,8 @@ if(project.hasProperty("fabric_version")) {
 dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
 	
-	def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
-	def patch = (minecraft_version.split(/\./, -1)[2] as Integer)
+	def minor = minecraftVersionNumber.getMinor()
+	def patch = minecraftVersionNumber.getPatch()
 	
 	if(project.yarn_mappings.contains(", ") || (project.hasProperty("neoforge_version") && (minor > 20 || (minor == 20 && patch >= 5)))) {
 		mappings loom.layered {
@@ -225,8 +227,8 @@ eclipse {
 		}
 	}
 	else {
-		def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
-		def patch = (minecraft_version.split(/\./, -1)[2] as Integer)
+		def minor = minecraftVersionNumber.getMinor()
+		def patch = minecraftVersionNumber.getPatch()
 		jdt {
 			javaRuntimeName = "JavaSE-${minor > 20 || (minor == 20 && patch >= 5) ? 21 : minor >= 18 ? 17 : minor >= 17 ? 16 : 1.8}"
 		}
@@ -242,8 +244,8 @@ tasks.withType(JavaCompile) {
 			languageVersion = JavaLanguageVersion.of(21)
 		}
 		else {
-			def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
-			def patch = (minecraft_version.split(/\./, -1)[2] as Integer)
+			def minor = minecraftVersionNumber.getMinor()
+			def patch = minecraftVersionNumber.getPatch()
 			languageVersion = JavaLanguageVersion.of(minor > 20 || (minor == 20 && patch >= 5) ? 21 : minor >= 18 ? 17 : minor >= 17 ? 16 : 8)
 		}
 		vendor = JvmVendorSpec.ADOPTIUM
@@ -263,8 +265,8 @@ java {
 		targetCompatibility = JavaVersion.VERSION_1_8
 	}
 	else {
-		def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
-		def patch = (minecraft_version.split(/\./, -1)[2] as Integer)
+		def minor = minecraftVersionNumber.getMinor()
+		def patch = minecraftVersionNumber.getPatch()
 		if(minor > 20 || (minor == 20 && patch >= 5)) {
 			sourceCompatibility = JavaVersion.VERSION_21
 			targetCompatibility = JavaVersion.VERSION_21
@@ -303,8 +305,8 @@ tasks.named({ it in [ "runClient", "runServer" ] }).configureEach {
 			languageVersion = JavaLanguageVersion.of(21)
 		}
 		else {
-			def minor = (minecraft_version.split(/\./, -1)[1] as Integer)
-			def patch = (minecraft_version.split(/\./, -1)[2] as Integer)
+			def minor = minecraftVersionNumber.getMinor()
+			def patch = minecraftVersionNumber.getPatch()
 			languageVersion = JavaLanguageVersion.of(minor > 20 || (minor == 20 && patch >= 5) ? 21 : minor >= 18 ? 17 : minor >= 17 ? 16 : 8)
 		}
 		vendor = JvmVendorSpec.ADOPTIUM
