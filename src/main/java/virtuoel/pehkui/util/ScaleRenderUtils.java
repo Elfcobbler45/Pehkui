@@ -40,7 +40,7 @@ import virtuoel.pehkui.api.PehkuiConfig;
 public class ScaleRenderUtils
 {
 	public static final MethodHandles.Lookup LOOKUP;
-	public static final MethodHandle DRAW_BOX_OUTLINE, SHOULD_KEEP_PLAYER_ATTRIBUTES, HAS_EXTENDED_REACH;
+	public static final MethodHandle DRAW_BOX_OUTLINE, SHOULD_KEEP_PLAYER_ATTRIBUTES, HAS_EXTENDED_REACH, GET_TICK_DELTA;
 	public static final MethodType RECEIVE_TYPE, FACTORY_METHOD_TYPE;
 	public static final Method REGISTER_GLOBAL_RECEIVER;
 	public static final Class<?> PACKET_SENDER;
@@ -66,6 +66,7 @@ public class ScaleRenderUtils
 			final boolean is116Plus = VersionUtils.MINOR >= 16;
 			final boolean is1192Minus = VersionUtils.MINOR < 19 || (VersionUtils.MINOR == 19 && VersionUtils.PATCH <= 2);
 			final boolean is1204Minus = VersionUtils.MINOR < 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH <= 4);
+			final boolean is1206Minus = VersionUtils.MINOR < 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH <= 6);
 			
 			if (is114Minus && env == EnvType.CLIENT)
 			{
@@ -109,6 +110,13 @@ public class ScaleRenderUtils
 				m = ClientPlayerInteractionManager.class.getMethod(mapped);
 				handles.put(5, lookup.unreflect(m));
 			}
+			
+			if (is1206Minus && env == EnvType.CLIENT)
+			{
+				mapped = mappingResolver.mapMethodName("intermediary", "net.minecraft.class_310", "method_1488", "()F");
+				m = MinecraftClient.class.getMethod(mapped);
+				handles.put(6, lookup.unreflect(m));
+			}
 		}
 		catch (NoSuchMethodException | SecurityException | IllegalAccessException | ClassNotFoundException e)
 		{
@@ -123,6 +131,7 @@ public class ScaleRenderUtils
 		FACTORY_METHOD_TYPE = types.get(4);
 		PACKET_SENDER = classes[0];
 		HAS_EXTENDED_REACH = handles.get(5);
+		GET_TICK_DELTA = handles.get(6);
 	}
 	
 	public static void registerPacketHandler(Identifier id, Class<?> clazz, String methodName)
@@ -147,6 +156,23 @@ public class ScaleRenderUtils
 				throw new RuntimeException(e);
 			}
 		}
+	}
+	
+	public static float getTickDelta(final MinecraftClient client)
+	{
+		if (GET_TICK_DELTA != null)
+		{
+			try
+			{
+				return (float) GET_TICK_DELTA.invoke(client);
+			}
+			catch (Throwable e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return client.getRenderTickCounter().getTickDelta(false);
 	}
 	
 	public static boolean hasExtendedReach(final ClientPlayerInteractionManager interactionManager)

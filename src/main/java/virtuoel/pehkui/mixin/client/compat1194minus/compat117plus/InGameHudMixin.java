@@ -12,6 +12,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.entity.player.PlayerEntity;
 import virtuoel.pehkui.util.MixinConstants;
+import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(InGameHud.class)
@@ -27,7 +28,7 @@ public abstract class InGameHudMixin
 	@ModifyArg(method = MixinConstants.RENDER_STATUS_BARS, index = 0, at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F"))
 	private float pehkui$renderStatusBars(float value)
 	{
-		final float healthScale = ScaleUtils.getHealthScale(getCameraPlayer(), client.getTickDelta());
+		final float healthScale = ScaleUtils.getHealthScale(getCameraPlayer(), ScaleRenderUtils.getTickDelta(client));
 		
 		return healthScale != 1.0F ? value * healthScale : value;
 	}

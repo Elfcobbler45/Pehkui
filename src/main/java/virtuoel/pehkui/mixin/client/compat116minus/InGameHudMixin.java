@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import virtuoel.pehkui.util.MixinConstants;
+import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(InGameHud.class)
@@ -20,7 +21,7 @@ public abstract class InGameHudMixin
 	{
 		final MinecraftClient client = MinecraftClient.getInstance();
 		
-		final float healthScale = ScaleUtils.getHealthScale(client.getCameraEntity(), client.getTickDelta());
+		final float healthScale = ScaleUtils.getHealthScale(client.getCameraEntity(), ScaleRenderUtils.getTickDelta(client));
 		
 		return healthScale != 1.0F ? value * healthScale : value;
 	}

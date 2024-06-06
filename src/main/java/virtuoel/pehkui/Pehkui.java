@@ -23,6 +23,7 @@ import virtuoel.pehkui.util.ImmersivePortalsCompatibility;
 import virtuoel.pehkui.util.ModLoaderUtils;
 import virtuoel.pehkui.util.MulticonnectCompatibility;
 import virtuoel.pehkui.util.ReachEntityAttributesCompatibility;
+import virtuoel.pehkui.util.ReflectionUtils;
 import virtuoel.pehkui.util.VersionUtils;
 
 @ApiStatus.Internal
@@ -79,7 +80,7 @@ public class Pehkui implements ModInitializer
 	
 	public static Identifier id(String path)
 	{
-		return new Identifier(MOD_ID, path);
+		return ReflectionUtils.constructIdentifier(MOD_ID, path);
 	}
 	
 	public static Identifier id(String path, String... paths)

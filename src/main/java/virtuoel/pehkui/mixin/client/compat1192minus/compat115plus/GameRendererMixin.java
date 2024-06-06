@@ -32,7 +32,7 @@ public class GameRendererMixin
 	@ModifyExpressionValue(method = MixinConstants.GET_BASIC_PROJECTION_MATRIX, at = @At(value = "CONSTANT", args = "floatValue=0.05F"))
 	private float pehkui$getBasicProjectionMatrix$depth(float value)
 	{
-		return ScaleRenderUtils.modifyProjectionMatrixDepth(value, client.getCameraEntity(), client.getTickDelta());
+		return ScaleRenderUtils.modifyProjectionMatrixDepth(value, client.getCameraEntity(), ScaleRenderUtils.getTickDelta(client));
 	}
 	
 	@Unique
@@ -57,7 +57,7 @@ public class GameRendererMixin
 	{
 		if (pehkui$isBobbing)
 		{
-			final float scale = ScaleUtils.getViewBobbingScale(client.getCameraEntity(), client.getTickDelta());
+			final float scale = ScaleUtils.getViewBobbingScale(client.getCameraEntity(), ScaleRenderUtils.getTickDelta(client));
 			
 			if (scale != 1.0F)
 			{

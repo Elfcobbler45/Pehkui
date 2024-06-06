@@ -13,6 +13,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.util.MixinConstants;
+import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(EntityRenderer.class)
@@ -26,7 +27,7 @@ public abstract class EntityRendererMixin
 	@WrapOperation(method = MixinConstants.RENDER_LABEL, at = @At(value = "INVOKE", target = MixinConstants.GET_HEIGHT))
 	private float pehkui$renderLabel$getHeight(Entity entity, Operation<Float> original)
 	{
-		final float delta = MinecraftClient.getInstance().getTickDelta();
+		final float delta = ScaleRenderUtils.getTickDelta(MinecraftClient.getInstance());
 		return original.call(entity) / ScaleUtils.getBoundingBoxHeightScale(entity, delta);
 	}
 	

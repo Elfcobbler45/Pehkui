@@ -12,6 +12,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.ItemPickupParticle;
 import net.minecraft.entity.Entity;
 import virtuoel.pehkui.util.MixinConstants;
+import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ItemPickupParticle.class)
@@ -24,7 +25,7 @@ public class ItemPickupParticleMixin
 	@ModifyArg(method = MixinConstants.BUILD_GEOMETRY, index = 2, at = @At(value = "INVOKE", target = MixinConstants.LERP, ordinal = 4))
 	private double pehkui$buildGeometry$offset(double value)
 	{
-		final float scale = ScaleUtils.getEyeHeightScale(field_3821, MinecraftClient.getInstance().getTickDelta());
+		final float scale = ScaleUtils.getEyeHeightScale(field_3821, ScaleRenderUtils.getTickDelta(MinecraftClient.getInstance()));
 		
 		if (scale != 1.0F)
 		{

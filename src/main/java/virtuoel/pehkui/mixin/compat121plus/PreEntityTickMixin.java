@@ -1,23 +1,18 @@
-package virtuoel.pehkui.mixin;
+package virtuoel.pehkui.mixin.compat121plus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.entity.TntEntity;
-import net.minecraft.entity.decoration.EndCrystalEntity;
-import net.minecraft.entity.vehicle.AbstractMinecartEntity;
+import net.minecraft.entity.decoration.BlockAttachedEntity;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
+import virtuoel.pehkui.mixin.EntityMixin;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin({
-	AbstractMinecartEntity.class,
-	EndCrystalEntity.class,
-	FallingBlockEntity.class,
-	TntEntity.class
+	BlockAttachedEntity.class
 })
 public abstract class PreEntityTickMixin extends EntityMixin
 {

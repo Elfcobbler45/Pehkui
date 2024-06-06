@@ -31,7 +31,7 @@ public class GameRendererMixin
 	@ModifyExpressionValue(method = MixinConstants.APPLY_CAMERA_TRANSFORMATIONS, at = @At(value = "CONSTANT", args = "floatValue=0.05F"))
 	private float pehkui$applyCameraTransformations$depth(float value)
 	{
-		return ScaleRenderUtils.modifyProjectionMatrixDepthByWidth(value, client.getCameraEntity(), client.getTickDelta());
+		return ScaleRenderUtils.modifyProjectionMatrixDepthByWidth(value, client.getCameraEntity(), ScaleRenderUtils.getTickDelta(client));
 	}
 	
 	@Unique
@@ -57,7 +57,7 @@ public class GameRendererMixin
 	{
 		if (pehkui$isBobbing)
 		{
-			final float scale = ScaleUtils.getViewBobbingScale(client.getCameraEntity(), client.getTickDelta());
+			final float scale = ScaleUtils.getViewBobbingScale(client.getCameraEntity(), ScaleRenderUtils.getTickDelta(client));
 			
 			if (scale != 1.0F)
 			{
@@ -74,20 +74,20 @@ public class GameRendererMixin
 	@ModifyExpressionValue(method = MixinConstants.RENDER_HAND, at = @At(value = "CONSTANT", args = "floatValue=0.05F"))
 	private float pehkui$renderHand$depth(float value)
 	{
-		return ScaleRenderUtils.modifyProjectionMatrixDepthByWidth(value, client.getCameraEntity(), client.getTickDelta());
+		return ScaleRenderUtils.modifyProjectionMatrixDepthByWidth(value, client.getCameraEntity(), ScaleRenderUtils.getTickDelta(client));
 	}
 	
 	@Dynamic
 	@ModifyExpressionValue(method = MixinConstants.RENDER_CENTER, at = @At(value = "CONSTANT", args = "floatValue=0.05F"))
 	private float pehkui$renderCenter$depth(float value)
 	{
-		return ScaleRenderUtils.modifyProjectionMatrixDepthByWidth(value, client.getCameraEntity(), client.getTickDelta());
+		return ScaleRenderUtils.modifyProjectionMatrixDepthByWidth(value, client.getCameraEntity(), ScaleRenderUtils.getTickDelta(client));
 	}
 	
 	@Dynamic
 	@ModifyExpressionValue(method = MixinConstants.RENDER_ABOVE_CLOUDS, at = @At(value = "CONSTANT", args = "floatValue=0.05F"))
 	private float pehkui$renderAboveClouds$depth(float value)
 	{
-		return ScaleRenderUtils.modifyProjectionMatrixDepthByHeight(value, client.getCameraEntity(), client.getTickDelta());
+		return ScaleRenderUtils.modifyProjectionMatrixDepthByHeight(value, client.getCameraEntity(), ScaleRenderUtils.getTickDelta(client));
 	}
 }

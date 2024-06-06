@@ -21,7 +21,7 @@ import virtuoel.pehkui.util.PehkuiEntitySelectorReaderExtensions;
 public abstract class EntitySelectorReaderMixin implements PehkuiEntitySelectorReaderExtensions
 {
 	@Shadow
-	abstract void setPredicate(Predicate<Entity> predicate);
+	abstract void addPredicate(Predicate<Entity> predicate);
 	
 	@Unique
 	NumberRange.DoubleRange pehkui$scaleRange = (NumberRange.DoubleRange) (Object) NumberRange.DoubleRange.ANY;
@@ -38,13 +38,13 @@ public abstract class EntitySelectorReaderMixin implements PehkuiEntitySelectorR
 		if (!this.pehkui$scaleRange.isDummy())
 		{
 			final ScaleType scaleType = this.pehkui$scaleType == ScaleTypes.INVALID ? ScaleTypes.BASE : this.pehkui$scaleType;
-			setPredicate(e -> CommandUtils.testFloatRange(this.pehkui$scaleRange, scaleType.getScaleData(e).getBaseScale()));
+			addPredicate(e -> CommandUtils.testFloatRange(this.pehkui$scaleRange, scaleType.getScaleData(e).getBaseScale()));
 		}
 		
 		if (!this.pehkui$computedScaleRange.isDummy())
 		{
 			final ScaleType scaleType = this.pehkui$computedScaleType == ScaleTypes.INVALID ? ScaleTypes.BASE : this.pehkui$computedScaleType;
-			setPredicate(e -> CommandUtils.testFloatRange(this.pehkui$computedScaleRange, scaleType.getScaleData(e).getScale()));
+			addPredicate(e -> CommandUtils.testFloatRange(this.pehkui$computedScaleRange, scaleType.getScaleData(e).getScale()));
 		}
 	}
 	

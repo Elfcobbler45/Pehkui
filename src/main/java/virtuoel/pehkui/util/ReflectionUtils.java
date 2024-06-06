@@ -7,6 +7,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Optional;
 
+import org.jetbrains.annotations.Nullable;
+
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -14,7 +16,9 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.MappingResolver;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.Leashable;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.listener.ClientCommonPacketListener;
 import net.minecraft.network.packet.Packet;
@@ -22,12 +26,13 @@ import net.minecraft.predicate.NumberRange;
 import net.minecraft.server.network.PlayerAssociatedNetworkHandler;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.InvalidIdentifierException;
 import virtuoel.pehkui.Pehkui;
 
 public final class ReflectionUtils
 {
 	public static final Class<?> LITERAL_TEXT;
-	public static final MethodHandle GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET, SEND_PACKET, IS_DUMMY, GET_WIDTH, GET_HEIGHT, CREATE_S2C_PACKET;
+	public static final MethodHandle GET_FLYING_SPEED, SET_FLYING_SPEED, GET_MOUNTED_HEIGHT_OFFSET, SEND_PACKET, IS_DUMMY, GET_WIDTH, GET_HEIGHT, CREATE_S2C_PACKET, GET_HOLDING_ENTITY, CONSTRUCT_ID_FROM_STRING, CONSTRUCT_ID_FROM_STRINGS;
 	
 	static
 	{
@@ -47,6 +52,7 @@ public final class ReflectionUtils
 			final boolean is1193Minus = VersionUtils.MINOR < 19 || (VersionUtils.MINOR == 19 && VersionUtils.PATCH <= 3);
 			final boolean is1201Minus = VersionUtils.MINOR < 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH <= 1);
 			final boolean is1204Minus = VersionUtils.MINOR < 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH <= 4);
+			final boolean is1206Minus = VersionUtils.MINOR < 20 || (VersionUtils.MINOR == 20 && VersionUtils.PATCH <= 6);
 			
 			if (is118Minus)
 			{
@@ -96,6 +102,17 @@ public final class ReflectionUtils
 				m = ServerPlayNetworking.class.getMethod("createS2CPacket", Identifier.class, PacketByteBuf.class);
 				h.put(7, lookup.unreflect(m));
 			}
+			
+			if (is1206Minus)
+			{
+				mapped = mappingResolver.mapFieldName("intermediary", "net.minecraft.class_1308", "method_5933", "()Lnet/minecraft/class_1297;");
+				m = MobEntity.class.getMethod(mapped);
+				h.put(8, lookup.unreflect(m));
+				
+				h.put(9, lookup.unreflectConstructor(Identifier.class.getDeclaredConstructor(String.class)));
+				
+				h.put(10, lookup.unreflectConstructor(Identifier.class.getDeclaredConstructor(String.class, String.class)));
+			}
 		}
 		catch (NoSuchMethodException | SecurityException | ClassNotFoundException | IllegalAccessException | NoSuchFieldException e)
 		{
@@ -112,6 +129,9 @@ public final class ReflectionUtils
 		GET_WIDTH = h.get(5);
 		GET_HEIGHT = h.get(6);
 		CREATE_S2C_PACKET = h.get(7);
+		GET_HOLDING_ENTITY = h.get(8);
+		CONSTRUCT_ID_FROM_STRING = h.get(9);
+		CONSTRUCT_ID_FROM_STRINGS = h.get(10);
 	}
 	
 	public static Packet<ClientCommonPacketListener> createS2CPacket(Identifier channelName, PacketByteBuf buf)
@@ -124,6 +144,75 @@ public final class ReflectionUtils
 		{
 			throw new RuntimeException(e);
 		}
+	}
+	
+	public static Identifier constructIdentifier(final String id)
+	{
+		if (CONSTRUCT_ID_FROM_STRING != null)
+		{
+			try
+			{
+				return (Identifier) CONSTRUCT_ID_FROM_STRING.invoke(id);
+			}
+			catch (final InvalidIdentifierException e)
+			{
+				throw e;
+			}
+			catch (final Throwable e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return Identifier.of(id);
+	}
+	
+	public static Identifier constructIdentifier(final String namespace, final String path)
+	{
+		if (CONSTRUCT_ID_FROM_STRINGS != null)
+		{
+			try
+			{
+				return (Identifier) CONSTRUCT_ID_FROM_STRINGS.invoke(namespace, path);
+			}
+			catch (final InvalidIdentifierException e)
+			{
+				throw e;
+			}
+			catch (final Throwable e)
+			{
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return Identifier.of(namespace, path);
+	}
+	
+	public static @Nullable Entity getHoldingEntity(final Entity leashed)
+	{
+		if (GET_HOLDING_ENTITY != null)
+		{
+			if (leashed instanceof MobEntity)
+			{
+				try
+				{
+					return (Entity) GET_HOLDING_ENTITY.invoke((MobEntity) leashed);
+				}
+				catch (final Throwable e)
+				{
+					throw new RuntimeException(e);
+				}
+			}
+		}
+		else
+		{
+			if (leashed instanceof Leashable)
+			{
+				return ((Leashable) leashed).getLeashHolder();
+			}
+		}
+		
+		return null;
 	}
 	
 	public static float getFlyingSpeed(final LivingEntity entity)

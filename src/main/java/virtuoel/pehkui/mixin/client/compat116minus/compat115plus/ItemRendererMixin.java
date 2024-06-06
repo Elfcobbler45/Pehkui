@@ -37,7 +37,7 @@ public class ItemRendererMixin
 		
 		if (!item.isEmpty() && entity != null)
 		{
-			final float tickDelta = MinecraftClient.getInstance().getTickDelta();
+			final float tickDelta = ScaleRenderUtils.getTickDelta(MinecraftClient.getInstance());
 			final float scale = ScaleUtils.getHeldItemScale(entity, tickDelta);
 			
 			if (scale != 1.0F)

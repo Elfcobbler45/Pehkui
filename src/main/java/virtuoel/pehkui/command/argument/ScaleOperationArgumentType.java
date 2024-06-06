@@ -20,6 +20,7 @@ import virtuoel.pehkui.Pehkui;
 import virtuoel.pehkui.api.ScaleOperations;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.mixin.OperationArgumentTypeAccessor;
+import virtuoel.pehkui.util.ReflectionUtils;
 
 public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationArgumentType.Operation>
 {
@@ -82,7 +83,7 @@ public class ScaleOperationArgumentType implements ArgumentType<ScaleOperationAr
 	{
 		final DoubleBinaryOperator entry = ScaleRegistries.getEntry(
 			ScaleRegistries.SCALE_OPERATIONS,
-			string.contains(":") ? new Identifier(string) : Pehkui.id(string)
+			string.contains(":") ? ReflectionUtils.constructIdentifier(string) : Pehkui.id(string)
 		);
 		
 		if (entry == null || entry == ScaleOperations.NOOP)

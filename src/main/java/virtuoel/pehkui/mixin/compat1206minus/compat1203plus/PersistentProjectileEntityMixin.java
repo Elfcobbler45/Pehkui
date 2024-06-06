@@ -1,5 +1,6 @@
-package virtuoel.pehkui.mixin.compat1203plus;
+package virtuoel.pehkui.mixin.compat1206minus.compat1203plus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,12 +14,14 @@ import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(PersistentProjectileEntity.class)
 public abstract class PersistentProjectileEntityMixin
 {
-	@Inject(at = @At("RETURN"), method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;Lnet/minecraft/item/ItemStack;)V")
+	@Dynamic
+	@Inject(at = @At("RETURN"), method = MixinConstants.PERSISTENT_PROJECTILE_ENTITY_WITH_STACK_INIT)
 	private void pehkui$construct(EntityType<? extends ProjectileEntity> type, LivingEntity owner, World world, ItemStack stack, CallbackInfo info)
 	{
 		final float scale = ScaleUtils.getEyeHeightScale(owner);

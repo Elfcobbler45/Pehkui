@@ -29,9 +29,9 @@ public class ShulkerEntityMixin
 			final double yLength = box.getLengthY() / -2.0D;
 			final double zLength = box.getLengthZ() / -2.0D;
 			
-			final double dX = xLength * (1.0D - widthScale); 
-			final double dY = yLength * (1.0D - heightScale); 
-			final double dZ = zLength * (1.0D - widthScale); 
+			final double dX = xLength * (1.0D - widthScale);
+			final double dY = yLength * (1.0D - heightScale);
+			final double dZ = zLength * (1.0D - widthScale);
 			box = box.expand(dX, dY, dZ);
 			box = box.offset(dX * facing.getOffsetX(), dY * facing.getOffsetY(), dZ * facing.getOffsetZ());
 		}

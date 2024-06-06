@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin;
+package virtuoel.pehkui.mixin.compat1206minus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -29,9 +29,9 @@ public abstract class ItemFrameEntityMixin
 		
 		if (widthScale != 1.0F || heightScale != 1.0F)
 		{
-			final double dX = xLength * (1.0D - widthScale); 
-			final double dY = yLength * (1.0D - heightScale); 
-			final double dZ = zLength * (1.0D - widthScale); 
+			final double dX = xLength * (1.0D - widthScale);
+			final double dY = yLength * (1.0D - heightScale);
+			final double dZ = zLength * (1.0D - widthScale);
 			box = box.expand(dX, dY, dZ);
 			box = box.offset(dX * facing.getOffsetX(), dY * facing.getOffsetY(), dZ * facing.getOffsetZ());
 		}

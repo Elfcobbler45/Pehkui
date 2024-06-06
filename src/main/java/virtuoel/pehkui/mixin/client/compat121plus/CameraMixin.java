@@ -1,4 +1,4 @@
-package virtuoel.pehkui.mixin.client;
+package virtuoel.pehkui.mixin.client.compat121plus;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -10,6 +10,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.entity.Entity;
+import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(Camera.class)
@@ -18,9 +19,9 @@ public abstract class CameraMixin
 	@Shadow Entity focusedEntity;
 	
 	@ModifyVariable(method = "clipToSpace", at = @At(value = "HEAD"), argsOnly = true)
-	private double pehkui$clipToSpace(double desiredCameraDistance)
+	private float pehkui$clipToSpace(float desiredCameraDistance)
 	{
-		return desiredCameraDistance * ScaleUtils.getThirdPersonScale(focusedEntity, MinecraftClient.getInstance().getTickDelta());
+		return desiredCameraDistance * ScaleUtils.getThirdPersonScale(focusedEntity, ScaleRenderUtils.getTickDelta(MinecraftClient.getInstance()));
 	}
 	
 	@ModifyExpressionValue(method = "clipToSpace", at = @At(value = "CONSTANT", args = "floatValue=0.1F"))
