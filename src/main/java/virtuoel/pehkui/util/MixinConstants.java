@@ -144,7 +144,6 @@ public class MixinConstants
 	private static final String CLASS_746 = "net/minecraft/class_746";
 	private static final String CLASS_238 = "net/minecraft/class_238";
 	private static final String CLASS_289 = "net/minecraft/class_289";
-	private static final String CLASS_898 = "net/minecraft/class_898";
 	private static final String CLASS_5575 = "net/minecraft/class_5575";
 	private static final String CLASS_3244 = "net/minecraft/class_3244";
 	private static final String CLASS_1282 = "net/minecraft/class_1282";
@@ -173,7 +172,7 @@ public class MixinConstants
 	public static final String RENDER = METHOD_3954 + "(L" + CLASS_1297 + ";DDDFFZ)V";
 	public static final String RENDER_IN_WORLD = "L" + CLASS_897 + ";" + METHOD_3936 + "(L" + CLASS_1297 + ";DDDFF)V";
 	public static final String TESSELATOR_GET_INSTANCE = "L" + CLASS_289 + ";" + METHOD_1348 + "()L" + CLASS_289 + ";";
-	public static final String RENDER_HITBOX = "L" + CLASS_898 + ";" + METHOD_3956 + "(L" + CLASS_1297 + ";DDDFF)V";
+	public static final String RENDER_HITBOX = METHOD_3956;
 	public static final String RENDER_LABEL = METHOD_3923 + "(L" + CLASS_1297 + ";Ljava/lang/String;DDDI)V";
 	public static final String POST_RENDER = METHOD_3939 + "(L" + CLASS_1297 + ";DDDFF)V";
 	public static final String RENDER_SHADOW = "L" + CLASS_897 + ";" + METHOD_3934 + "(L" + CLASS_1297 + ";DDDFF)V";

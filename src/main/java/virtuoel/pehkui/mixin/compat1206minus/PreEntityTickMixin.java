@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import net.minecraft.entity.decoration.AbstractDecorationEntity;
 import virtuoel.pehkui.api.ScaleRegistries;
 import virtuoel.pehkui.api.ScaleType;
 import virtuoel.pehkui.mixin.EntityMixin;
@@ -13,7 +14,7 @@ import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin({
-	AbstractDecorationEntityMixin.class,
+	AbstractDecorationEntity.class,
 })
 public abstract class PreEntityTickMixin extends EntityMixin
 {
