@@ -43,6 +43,6 @@ public class EntityRendererMixin<T extends Entity>
 	{
 		final float scale = ScaleUtils.getBoundingBoxHeightScale(entity);
 		
-		return scale != 1.0F ? value * scale : value;
+		return scale != 1.0F ? value + (entity.getHeight() * ((1.0F / scale) - 1.0F)) : value;
 	}
 }

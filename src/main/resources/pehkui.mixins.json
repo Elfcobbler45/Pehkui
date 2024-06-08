@@ -283,6 +283,7 @@
 		"client.compat1206minus.CameraMixin",
 		"client.compat1206minus.compat115plus.MobEntityRendererMixin",
 		"client.compat1206minus.compat117plus.EntityRenderDispatcherMixin",
+		"client.compat1206minus.compat1205plus.EntityRendererMixin",
 		"client.compat1206minus.compat1205plus.GameRendererMixin",
 		"client.compat120plus.InGameHudMixin",
 		"client.compat121plus.CameraMixin",
