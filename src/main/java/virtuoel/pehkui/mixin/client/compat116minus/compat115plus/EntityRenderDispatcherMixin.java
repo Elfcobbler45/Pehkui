@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.client.compat116minus.compat115plus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -10,13 +11,15 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Box;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleRenderUtils;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(EntityRenderDispatcher.class)
 public class EntityRenderDispatcherMixin
 {
-	@Inject(method = "renderHitbox", at = @At(value = "TAIL"))
+	@Dynamic
+	@Inject(method = MixinConstants.RENDER_HITBOX, at = @At(value = "TAIL"))
 	private void pehkui$renderHitbox(MatrixStack matrices, VertexConsumer vertices, Entity entity, float tickDelta, CallbackInfo ci)
 	{
 		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(entity);

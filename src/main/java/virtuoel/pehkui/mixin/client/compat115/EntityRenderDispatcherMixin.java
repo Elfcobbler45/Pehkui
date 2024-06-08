@@ -27,7 +27,8 @@ public class EntityRenderDispatcherMixin
 		return value - 0.0155D;
 	}
 	
-	@Inject(method = "renderHitbox", at = @At(value = "TAIL"))
+	@Dynamic
+	@Inject(method = MixinConstants.RENDER_HITBOX, at = @At(value = "TAIL"))
 	private void pehkui$renderHitbox(MatrixStack matrices, VertexConsumer vertices, Entity entity, float f, CallbackInfo ci)
 	{
 		final float interactionWidth = ScaleUtils.getInteractionBoxWidthScale(entity);

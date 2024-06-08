@@ -19,14 +19,15 @@ public abstract class ExplosiveProjectileEntityMixin
 {
 	@Dynamic
 	@Shadow
-	public float field_7601; // UNMAPPED_FIELD
+	public double field_7601; // UNMAPPED_FIELD
 	@Dynamic
 	@Shadow
-	public float field_7600; // UNMAPPED_FIELD
+	public double field_7600; // UNMAPPED_FIELD
 	@Dynamic
 	@Shadow
-	public float field_7599; // UNMAPPED_FIELD
+	public double field_7599; // UNMAPPED_FIELD
 	
+	@Dynamic
 	@Inject(at = @At("RETURN"), method = MixinConstants.EXPLOSIVE_PROJECTILE_ENTITY_INIT)
 	private void pehkui$construct(EntityType<? extends ExplosiveProjectileEntity> type, LivingEntity owner, double directionX, double directionY, double directionZ, World world, CallbackInfo info)
 	{

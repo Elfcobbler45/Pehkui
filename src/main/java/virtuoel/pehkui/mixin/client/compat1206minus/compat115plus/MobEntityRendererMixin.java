@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.client.compat1206minus.compat115plus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,6 +18,7 @@ import virtuoel.pehkui.util.ScaleUtils;
 @Mixin(MobEntityRenderer.class)
 public class MobEntityRendererMixin<T extends MobEntity>
 {
+	@Dynamic
 	@Inject(method = MixinConstants.RENDER_LEASH, at = @At(value = "HEAD"))
 	private <E extends Entity> void pehkui$renderLeash$head(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider provider, E holdingEntity, CallbackInfo info)
 	{
@@ -31,6 +33,7 @@ public class MobEntityRendererMixin<T extends MobEntity>
 		}
 	}
 	
+	@Dynamic
 	@Inject(method = MixinConstants.RENDER_LEASH, at = @At(value = "RETURN"))
 	private <E extends Entity> void pehkui$renderLeash$return(T entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider provider, E holdingEntity, CallbackInfo info)
 	{

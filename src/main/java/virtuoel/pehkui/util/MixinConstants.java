@@ -101,8 +101,9 @@ public class MixinConstants
 	private static final String METHOD_51152 = "method_51152";
 	private static final String METHOD_2904 = "method_2904";
 	private static final String METHOD_3188 = "method_3188";
-	private static final String METHOD_5773 = "method_5773";
+	private static final String METHOD_6895 = "method_6895";
 	private static final String METHOD_18382 = "method_18382";
+	private static final String METHOD_5773 = "method_5773";
 	private static final String METHOD_19318 = "method_19318";
 	
 	private static final String CLASS_4019$CLASS_4024 = "net.minecraft.class_4019$class_4024";
@@ -367,13 +368,17 @@ public class MixinConstants
 	public static final String RENDER_LABEL_IF_PRESENT = METHOD_3926 + "(L" + CLASS_1297 + ";L" + CLASS_2561 + ";L" + CLASS_4587 + ";L" + CLASS_4597 + ";I)V";
 	
 	// 1.20.6 Minus
+	public static final String UPDATE_ATTACHMENT_POSITION = METHOD_6895;
 	public static final String EXPLOSIVE_PROJECTILE_ENTITY_INIT = "<init>(L" + CLASS_1299 + ";L" + CLASS_1309 + ";DDDL" + CLASS_1937 + ";)V";
-	public static final String TICK = METHOD_5773;
 	public static final String CALCULATE_DIMENSIONS = METHOD_18382;
+	public static final String TICK = METHOD_5773;
 	
 	// 1.20.6 Minus Client
 	public static final String CLIP_TO_SPACE = METHOD_19318;
 	
 	// 1.20.6 Minus 1.20.3 Plus
 	public static final String PERSISTENT_PROJECTILE_ENTITY_WITH_STACK_INIT = "<init>(L" + CLASS_1299 + ";L" + CLASS_1309 + ";L" + CLASS_1937 + ";L" + CLASS_1799 + ";)V";
+	
+	// 1.20.6 Minus 1.20.5 Plus
+	public static final String RENDER_LABEL_IF_PRESENT_WITH_DELTA = METHOD_3926 + "(L" + CLASS_1297 + ";L" + CLASS_2561 + ";L" + CLASS_4587 + ";L" + CLASS_4597 + ";IF)V";
 }

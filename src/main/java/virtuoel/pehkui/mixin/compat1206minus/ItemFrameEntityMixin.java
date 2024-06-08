@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.compat1206minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
@@ -8,12 +9,14 @@ import net.minecraft.entity.decoration.AbstractDecorationEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
+import virtuoel.pehkui.util.MixinConstants;
 import virtuoel.pehkui.util.ScaleUtils;
 
 @Mixin(ItemFrameEntity.class)
 public abstract class ItemFrameEntityMixin
 {
-	@ModifyArg(method = "updateAttachmentPosition()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/decoration/ItemFrameEntity;setBoundingBox(Lnet/minecraft/util/math/Box;)V"))
+	@Dynamic
+	@ModifyArg(method = MixinConstants.UPDATE_ATTACHMENT_POSITION, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/decoration/ItemFrameEntity;setBoundingBox(Lnet/minecraft/util/math/Box;)V"))
 	private Box pehkui$updateAttachment$box(Box box)
 	{
 		final AbstractDecorationEntity entity = (AbstractDecorationEntity) (Object) this;
