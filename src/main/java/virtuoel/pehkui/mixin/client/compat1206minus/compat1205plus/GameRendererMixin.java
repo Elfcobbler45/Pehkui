@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.client.compat1206minus.compat1205plus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
@@ -29,12 +30,14 @@ public class GameRendererMixin
 	@Unique
 	boolean pehkui$isBobbing = false;
 	
+	@Dynamic
 	@Inject(method = MixinConstants.RENDER_WORLD, at = @At(value = "INVOKE", shift = Shift.BEFORE, target = "Lnet/minecraft/client/render/GameRenderer;bobView(Lnet/minecraft/client/util/math/MatrixStack;F)V"))
 	private void pehkui$renderWorld$before(float tickDelta, long limitTime, CallbackInfo info)
 	{
 		pehkui$isBobbing = true;
 	}
 	
+	@Dynamic
 	@Inject(method = MixinConstants.RENDER_WORLD, at = @At(value = "INVOKE", shift = Shift.AFTER, target = "Lnet/minecraft/client/render/GameRenderer;bobView(Lnet/minecraft/client/util/math/MatrixStack;F)V"))
 	private void pehkui$renderWorld$after(float tickDelta, long limitTime, CallbackInfo info)
 	{

@@ -1,5 +1,6 @@
 package virtuoel.pehkui.mixin.client.compat1206minus;
 
+import org.spongepowered.asm.mixin.Dynamic;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,12 +20,14 @@ public abstract class CameraMixin
 {
 	@Shadow Entity focusedEntity;
 	
+	@Dynamic
 	@ModifyVariable(method = MixinConstants.CLIP_TO_SPACE, at = @At(value = "HEAD"), argsOnly = true)
 	private double pehkui$clipToSpace(double desiredCameraDistance)
 	{
 		return desiredCameraDistance * ScaleUtils.getThirdPersonScale(focusedEntity, ScaleRenderUtils.getTickDelta(MinecraftClient.getInstance()));
 	}
 	
+	@Dynamic
 	@ModifyExpressionValue(method = MixinConstants.CLIP_TO_SPACE, at = @At(value = "CONSTANT", args = "floatValue=0.1F"))
 	private float pehkui$clipToSpace$offset(float value)
 	{
