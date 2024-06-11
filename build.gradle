@@ -119,7 +119,7 @@ dependencies {
 	minecraft "com.mojang:minecraft:${minecraft_version}"
 	
 	def minor = minecraftVersionNumber.getMinor()
-	def patch = minecraftVersionNumber.getPatch()
+	def patch = minecraftVersionNumber.getMicro()
 	
 	if(project.yarn_mappings.contains(", ") || (project.hasProperty("neoforge_version") && (minor > 20 || (minor == 20 && patch >= 5)))) {
 		mappings loom.layered {
@@ -236,7 +236,7 @@ eclipse {
 	}
 	else {
 		def minor = minecraftVersionNumber.getMinor()
-		def patch = minecraftVersionNumber.getPatch()
+		def patch = minecraftVersionNumber.getMicro()
 		jdt {
 			javaRuntimeName = "JavaSE-${minor > 20 || (minor == 20 && patch >= 5) ? 21 : minor >= 18 ? 17 : minor >= 17 ? 16 : 1.8}"
 		}
@@ -253,7 +253,7 @@ tasks.withType(JavaCompile) {
 		}
 		else {
 			def minor = minecraftVersionNumber.getMinor()
-			def patch = minecraftVersionNumber.getPatch()
+			def patch = minecraftVersionNumber.getMicro()
 			languageVersion = JavaLanguageVersion.of(minor > 20 || (minor == 20 && patch >= 5) ? 21 : minor >= 18 ? 17 : minor >= 17 ? 16 : 8)
 		}
 		vendor = JvmVendorSpec.ADOPTIUM
@@ -274,7 +274,7 @@ java {
 	}
 	else {
 		def minor = minecraftVersionNumber.getMinor()
-		def patch = minecraftVersionNumber.getPatch()
+		def patch = minecraftVersionNumber.getMicro()
 		if(minor > 20 || (minor == 20 && patch >= 5)) {
 			sourceCompatibility = JavaVersion.VERSION_21
 			targetCompatibility = JavaVersion.VERSION_21
@@ -314,7 +314,7 @@ tasks.named({ it in [ "runClient", "runServer" ] }).configureEach {
 		}
 		else {
 			def minor = minecraftVersionNumber.getMinor()
-			def patch = minecraftVersionNumber.getPatch()
+			def patch = minecraftVersionNumber.getMicro()
 			languageVersion = JavaLanguageVersion.of(minor > 20 || (minor == 20 && patch >= 5) ? 21 : minor >= 18 ? 17 : minor >= 17 ? 16 : 8)
 		}
 		vendor = JvmVendorSpec.ADOPTIUM
