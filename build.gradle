@@ -1,8 +1,8 @@
 plugins {
-	id "fabric-loom" version "1.6.+"
+	id "fabric-loom" version "1.7.+"
 	id "eclipse"
 	id "maven-publish"
-	id "com.github.johnrengelman.shadow" version "8.1.1" apply false
+	id "com.gradleup.shadow" version "8.3.3" apply false
 	id "com.github.breadmoirai.github-release" version "2.5.2"
 	id "org.ajoberstar.grgit.service" version "5.2.2"
 	id "io.github.CDAGaming.cursegradle" version "1.6.1"
@@ -73,7 +73,7 @@ else if(project.hasProperty("forge_version")) {
 	if(project.hasProperty("mixin_extras_version")) {
 		def minor = minecraftVersionNumber.getMinor()
 		if(minor < 18) {
-			apply plugin: "com.github.johnrengelman.shadow"
+			apply plugin: "com.gradleup.shadow"
 			
 			configurations {
 				implementation.extendsFrom shadow
@@ -269,8 +269,8 @@ java {
 	withSourcesJar()
 	
 	if(!proj.hasProperty("neoforge_version") && !proj.hasProperty("forge_version")) {
-		sourceCompatibility = JavaVersion.VERSION_1_8
-		targetCompatibility = JavaVersion.VERSION_1_8
+		//sourceCompatibility = JavaVersion.VERSION_1_8
+		//targetCompatibility = JavaVersion.VERSION_1_8
 	}
 	else {
 		def minor = minecraftVersionNumber.getMinor()
@@ -279,7 +279,7 @@ java {
 			sourceCompatibility = JavaVersion.VERSION_21
 			targetCompatibility = JavaVersion.VERSION_21
 		}
-		else if(minor >= 18) {
+		/*else if(minor >= 18) {
 			sourceCompatibility = JavaVersion.VERSION_17
 			targetCompatibility = JavaVersion.VERSION_17
 		}
@@ -290,7 +290,7 @@ java {
 		else {
 			sourceCompatibility = JavaVersion.VERSION_1_8
 			targetCompatibility = JavaVersion.VERSION_1_8
-		}
+		} */
 	}
 	
 	toolchain {
@@ -429,7 +429,7 @@ String generateMarkdownChangelog() {
 	return changelog_text
 }
 
-githubRelease {
+/* githubRelease {
 	token = project.hasProperty("github_releases_token") ? project.github_releases_token : ""
 	
 	if(project.hasProperty("github_repository_owner")) {
@@ -620,3 +620,4 @@ tasks.named("modrinth") {
 	dependsOn remapJar
 	dependsOn remapSourcesJar
 }
+ */
